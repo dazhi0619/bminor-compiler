@@ -1,4 +1,4 @@
-Starter Code for BMinor Project
+Starter Code for Dazhi Feng's BMinor Project
 -------------------------------
 
 This directory contains the starter code for the BMinor compiler.
