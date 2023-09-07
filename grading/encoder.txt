@@ -1,0 +1,543 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[good0.bminor Input]===
+"Hello, world!"
+
+===[good0.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good0.bminor Output]===
+"Hello, world!"
+
+
+
+===[good1.bminor Input]===
+"Hello\nWorld!\n"
+
+===[good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good1.bminor Output]===
+"Hello\nWorld!\n"
+
+
+
+===[good2.bminor Input]===
+""
+
+===[good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good2.bminor Output]===
+""
+
+
+
+===[good3.bminor Input]===
+"\a\b\e\f\n\r\t\v\\\'\"\0x41\0x4c\0x7A"
+
+===[good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good3.bminor Output]===
+"\a\b\e\f\n\r\t\v\\\'\"ALz"
+
+
+
+===[good4.bminor Input]===
+"                                                                                                                                                                                                                                                             "
+
+===[good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good4.bminor Output]===
+"                                                                                                                                                                                                                                                             "
+
+
+
+===[good5.bminor Input]===
+"\"\""
+
+===[good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good5.bminor Output]===
+"\"\""
+
+
+
+===[good6.bminor Input]===
+"\tHello\n\r\tWorld.\n"
+
+===[good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good6.bminor Output]===
+"\tHello\n\r\tWorld.\n"
+
+
+
+===[good7.bminor Input]===
+"1234567890"
+
+===[good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good7.bminor Output]===
+"1234567890"
+
+
+
+===[good8.bminor Input]===
+"\'"
+
+===[good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good8.bminor Output]===
+"\'"
+
+
+
+===[good9.bminor Input]===
+"0"
+
+===[good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good9.bminor Output]===
+"0"
+
+
+
+====Bad Tests====
+===[bad0.bminor Input]===
+"
+
+===[bad0.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad0.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad1.bminor Input]===
+"""
+
+===[bad1.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad1.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad2.bminor Input]===
+"Hello
+World
+"
+
+===[bad2.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad2.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad3.bminor Input]===
+"                                                                                                                                                                                                                                                                           "
+
+===[bad3.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad3.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad4.bminor Input]===
+'Hello World'
+
+===[bad4.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad4.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad5.bminor Input]===
+"Badstringoutsideofquotes"badbad
+
+===[bad5.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad5.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad6.bminor Input]===
+also"bad"
+
+===[bad6.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad6.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad7.bminor Input]===
+
+===[bad7.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad7.bminor Output]===
+ERROR: file content invalid.
+
+
+
+
+===[bad8.bminor Input]===
+"\i\0x0"
+
+===[bad8.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad8.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad9.bminor Input]===
+"\0\0xHH"
+
+===[bad9.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad9.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+=====HIDDEN TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+"Whan that Aprill with his shoures soote"
+===[good1.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good1.bminor Output]===
+"Whan that Aprill with his shoures soote"
+
+
+
+===[good10.bminor Input]===
+"That slepen al the nyght with open ye\n(So priketh hem Nature in hir corages),\nThanne longen folk to goon on pilgrimages,\nAnd palmeres for to seken straunge strondes,\n To ferne halwes, kowthe in sondry londes;\t And specially from every shires ende."
+===[good10.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good10.bminor Output]===
+"That slepen al the nyght with open ye\n(So priketh hem Nature in hir corages),\nThanne longen folk to goon on pilgrimages,\nAnd palmeres for to seken straunge strondes,\n To ferne halwes, kowthe in sondry londes;\t And specially from every shires ende."
+
+
+
+===[good3.bminor Input]===
+"And bathed  \bevery veyne in swich licour"
+===[good3.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good3.bminor Output]===
+"And bathed  \bevery veyne in swich licour"
+
+
+
+===[good4.bminor Input]===
+"Of which vertu engendred is the flour\e"
+===[good4.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good4.bminor Output]===
+"Of which vertu engendred is the flour\e"
+
+
+
+===[good5.bminor Input]===
+"\fWhan Zephirus eek with his sweete breeth"
+===[good5.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good5.bminor Output]===
+"\fWhan Zephirus eek with his sweete breeth"
+
+
+
+===[good6.bminor Input]===
+"Inspired hath in \nevery\nholt\nand\nheeth\rheeth"
+===[good6.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good6.bminor Output]===
+"Inspired hath in \nevery\nholt\nand\nheeth\rheeth"
+
+
+
+===[good7.bminor Input]===
+"The tendre croppes, \t and the yonge sonne"
+===[good7.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good7.bminor Output]===
+"The tendre croppes, \t and the yonge sonne"
+
+
+
+===[good8.bminor Input]===
+"Hath in the Ram his half \\ \'cours\' yronne,"
+===[good8.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good8.bminor Output]===
+"Hath in the Ram his half \\ \'cours\' yronne,"
+
+
+
+===[good9.bminor Input]===
+"And smale \"foweles\" maken melodye,\v"
+===[good9.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good9.bminor Output]===
+"And smale \"foweles\" maken melodye,\v"
+
+
+
+===[good2.bminor Input]===
+"The droghte \a of March hath per\0x5Ed to \0x22 the roote\n"
+===[good2.bminor Status]===
+return code: 0
+Test passed successfully!
+
+===[good2.bminor Output]===
+"The droghte \a of March hath per^d to \" the roote\n"
+
+
+
+====Bad Tests====
+===[bad1.bminor Input]===
+Bifil that seson on a day
+===[bad1.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad1.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad4.bminor Input]===
+"To Caunterbury with ful devout corage \c \d \g \h \i \j \k \l \m \o \p \q \s \u \w \x \y \z"
+===[bad4.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad4.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad5.bminor Input]===
+"At nyght was come "into that hostelrye"
+===[bad5.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad5.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad6.bminor Input]===
+"Wel nyne and twenty \~in a compaignye"
+===[bad6.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad6.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad7.bminor Input]===
+"Of sondry folk, by aventure yfalle" \n\n
+===[bad7.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad7.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad8.bminor Input]===
+\n "In felaweshipe, and pilgrimes were they alle,"
+===[bad8.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad8.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad9.bminor Input]===
+"That toward Caunterbuty \" wolden "" ryde."
+===[bad9.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad9.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad2.bminor Input]===
+"In \0xfg Southwerk at the tabard as I lay"
+===[bad2.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad2.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad3.bminor Input]===
+"
+===[bad3.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad3.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===[bad10.bminor Input]===
+"The chambres and the stables weren wyde, And wel we weren esed atte beste. And shortly, whan the sonne was to reste, So hadde I spoken with hem everichon That I was of hir felaweshipe anon, And made forward erly for to ryse, To take oure wey ther as I yow devyse. This is over 255 bytes"
+===[bad10.bminor Status]===
+return code: 1
+Test passed successfully!
+
+===[bad10.bminor Output]===
+ERROR: invalid string.
+
+
+
+
+===== SUMMARIZED ENCODER RESULTS =====
+{
+  "student_tests": {
+    "Good": {
+      "correct": 10,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 10,
+      "incorrect": 0
+    }
+  },
+  "hidden_tests": {
+    "Good": {
+      "correct": 10,
+      "incorrect": 0
+    },
+    "Bad": {
+      "correct": 10,
+      "incorrect": 0
+    }
+  }
+}
+Encoder Project Grade
+---------------------------------
+
+GitHub Usage (1/2 points)
+----------------------------------------------
+Please make sure the release and tag name are exactly what is listed in the assignment (-1)
+
+Makefile (5/5 points)
+----------------------------------------------
+Works well!
+
+Return Code (8/8 points)
+----------------------------------------------
+Excellent work here
+
+General Structure (15/15 points)
+----------------------------------------------
+I would add some comments and some whitespace in your main function. Right now it looks quite busy and is hard to read.
+
+Student Tests (20/20 points)
+------------------------------------------
+Excellent work providing a variety of test cases that can show your program is up to the requirements given
+
+Hidden Tests (20/20 points)
+------------------------------------------
+Excellent work passing all of the tests
+
+Coding Style (10/10 points)
+------------------------------------------
+I would add header guards to encoder.h, later on this might lead to some nasty compile errors that could get hard to debug.
+
+Total (79/80 Points)
+------------------------------------------
