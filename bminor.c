@@ -1,8 +1,9 @@
 #include "encoder.h"
+#include "scanner.h"
 #include <stdio.h>
 #include <string.h>
 
-int LINE_MAX = 258;
+int LINE_MAX = 255 + 3;   // 3 is for 2 quotes and 1 terminator (return) in the input
 
 int main(int argc, char *argv[]) {
   if (argc == 3) {
@@ -32,6 +33,14 @@ int main(int argc, char *argv[]) {
         printf("%s", encoded);
         return 0;
       }
+    } else if (!strcmp(argv[1], "--scan")) {
+      char *input_file_name = argv[2];
+      FILE *file = fopen(input_file_name, "r");
+      if (!file) {
+        printf("ERROR: file invalid.\n");
+        return 1;
+      }
+      return yymain(file);
     } else {
       printf("ERROR: Unknown option %s\n", argv[1]);
       return 1;

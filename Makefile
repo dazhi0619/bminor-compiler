@@ -1,5 +1,6 @@
-options=-g
-objects=bminor.o encoder.o
+options=
+objects=bminor.o encoder.o scanner.o
+
 bminor: $(objects)
 	gcc $(options) $(objects) -o bminor
 
@@ -8,6 +9,10 @@ bminor.o: bminor.c
 
 encoder.o: encoder.c
 	gcc $(options) -c encoder.c -o encoder.o
+
+scanner.o: scanner.flex
+	flex -o scanner.c scanner.flex
+	gcc $(options) -c scanner.c -o scanner.o
 
 clean:
 	rm -rf *.o bminor
