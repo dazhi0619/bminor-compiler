@@ -1,6 +1,7 @@
 %{
-#include "encoder.h"
-#include "scanner.h"
+#include "include/encoder.h"
+#include "include/scanner.h"
+#include "include/token.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,36 +67,26 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 {COMMENT}           {}
 {DELIM}             {}
 
-{INTEGER_LITERAL}   { printf("INTEGER_LITERAL %d\n", atoi(yytext)); }
-{FLOAT_LITERAL}     { printf("FLOAT_LITERAL %f\n", atof(yytext)); }
-{CHAR_LITERAL}      { 
-                      char c = 0;
-                      char_decode(yytext, &c);
-                      printf("CHARACTER_LITERAL %c\n", c);
-                    }
-{STRING_LITERAL}    { 
-                      char s[255];
-                      if (string_decode(yytext, s) != ENCODER_ERROR) {
-                        printf("STRING_LITERAL %s\n", s);
-                      } else {
-                        return SCAN_ERROR;
-                      }
-                    }
+{INTEGER_LITERAL}   { return TOKEN_INT; }
+{FLOAT_LITERAL}     { return TOKEN_FLOAT; }
+{CHAR_LITERAL}      { return TOKEN_CHAR; }
+{STRING_LITERAL}    { return TOKEN_STRING; }
 {COMMA}   { printf("COMMA\n"); }
-{SEMICOLON}   { printf("SEMICOLON\n"); }
+{SEMICOLON}   { return TOKEN_SEMI; }
 {COLON}   { printf("COLON\n"); }
-{PARENTHESIS}   { printf("PARENTHESIS\n"); }
+\(        { return TOKEN_LPAREN; }
+\)        { return TOKEN_RPAREN; }
 {BRACKET}   { printf("BRACKET\n"); }
 {BRACE}   { printf("BRACE\n"); }
 {INCREMENT}   { printf("INCREMENT\n"); }
 {DECREMENT}   { printf("DECREMENT\n"); }
-{MINUS}   { printf("MINUS\n"); }
+{MINUS}   { return TOKEN_MINUS; }
 {NOT}   { printf("NOT\n"); }
 {EXPONENTIATION}   { printf("EXPONENTIATION\n"); }
-{MULTIPLICATION}   { printf("MULTIPLICATION\n"); }
-{DIVISION}   { printf("DIVISION\n"); }
+{MULTIPLICATION}   { return TOKEN_MUL; }
+{DIVISION}   { return TOKEN_DIV; }
 {REMAINDER}   { printf("REMAINDER\n"); }
-{ADDITION}   { printf("ADDITION\n"); }
+{ADDITION}   { return TOKEN_PLUS; }
 {LT}   { printf("LT\n"); }
 {LE}   { printf("LE\n"); }
 {GT}   { printf("GT\n"); }
@@ -129,7 +120,7 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 %%
 
 int yywrap() { return 1; }
-int yymain(FILE* file) {
+int yyscanmain(FILE* file) {
   yyin = file;
   if (yylex() == SCAN_ERROR) {
     return 1;

@@ -1,4 +1,4 @@
-#include "encoder.h"
+#include "include/encoder.h"
 int NO_QUOTE = 0;
 int OPEN_QUOTE = 1;
 int QUOTE_PAIRED = 2;

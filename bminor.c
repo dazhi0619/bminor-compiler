@@ -1,30 +1,42 @@
-#include "encoder.h"
-#include "scanner.h"
+#include "include/encoder.h"
+#include "include/scanner.h"
+#include "include/parser.h"
+#include <getopt.h>
 #include <stdio.h>
 #include <string.h>
 
 int LINE_MAX = 255 + 3;   // 3 is for 2 quotes and 1 terminator (return) in the input
 
 int main(int argc, char *argv[]) {
-  if (argc == 3) {
-    if (!strcmp(argv[1], "--encode")) {
-      char *input_file_name = argv[2];
-      FILE *file = fopen(input_file_name, "r");
-      if (!file) {
-        printf("ERROR: file invalid.\n");
-        return 1;
-      }
-      char input[LINE_MAX];
+  int argument;
+  int option_index;
+  static struct option long_options[] = {
+    {"encode", required_argument, NULL, 0},
+    {"scan", required_argument, NULL, 0},
+    {"parse", required_argument, NULL, 0}
+  };
+  argument = getopt_long(argc, argv, "", long_options, &option_index);
+
+  if (argument != 0) return 1;
+
+  FILE *file = fopen(optarg, "r");
+  if(!file) {
+    printf("ERROR: file invalid.\n");
+    return 1;
+  }
+
+  // Used for encoding and decoding
+  char input[LINE_MAX];
+  char decoded[LINE_MAX];
+  char encoded[LINE_MAX];
+
+  switch (option_index) {
+    case 0:
       if (!fgets(input, sizeof input, file)) {
         printf("ERROR: file content invalid.\n");
-        fclose(file);
         return 1;
-      } else {
-        fclose(file);
       }
       input[strcspn(input, "\n")] = 0;
-      char decoded[LINE_MAX];
-      char encoded[LINE_MAX];
       if (!string_decode(input, decoded)) {
         printf("ERROR: invalid string.\n");
         return 1;
@@ -33,20 +45,15 @@ int main(int argc, char *argv[]) {
         printf("%s", encoded);
         return 0;
       }
-    } else if (!strcmp(argv[1], "--scan")) {
-      char *input_file_name = argv[2];
-      FILE *file = fopen(input_file_name, "r");
-      if (!file) {
-        printf("ERROR: file invalid.\n");
-        return 1;
-      }
-      return yymain(file);
-    } else {
-      printf("ERROR: Unknown option %s\n", argv[1]);
+
+    case 1:
+      return yyscanmain(file);
+
+    case 2:
+      return yyparsemain(file);
+
+    default:
+      printf("Illegal option!\n");
       return 1;
-    }
-  } else {
-    printf("ERROR: Expected 2 arguments. You have %d.\n", argc);
-    return 1;
   }
 }
