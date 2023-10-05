@@ -1,4 +1,4 @@
-options=
+options=-std=c1x
 objects=bminor.o encoder.o scanner.o
 
 bminor: $(objects)

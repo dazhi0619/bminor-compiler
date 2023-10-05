@@ -8,8 +8,8 @@
 
 /* Types */
 INTEGER_LITERAL [+-]?[0-9]+
-FLOAT_LITERAL [+-]?([0-9]+\.[0-9]+|[0-9]+(\.[0-9]+)?e[+-]?[0-9]+)
-CHAR_LITERAL  \'([^\\]|\\[abefnrtv\'\"]|\\0x[0-9A-F][0-9A-F])\'
+FLOAT_LITERAL [+-]?([0-9]*\.[0-9]+|[0-9]+(\.[0-9]+)?e[+-]?[0-9]+)
+CHAR_LITERAL  \'([^\\\']|\\[abefnrtv\'\"]|\\0x[0-9A-F][0-9A-F])\'
 STRING_LITERAL  \"([^\\\"]|\\.)*\"
 
 /* Symbols */
@@ -59,7 +59,7 @@ VOID_KEYWORD  void
 WHILE_KEYWORD while
 
 IDENT [a-zA-Z_][a-zA-Z_0-9]*
-COMMENT (\/\*([^*]|(\*+([^*\/])))*\*\/)|(\/\/[^\n]*)
+COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 
 %%
 
