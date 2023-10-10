@@ -2,6 +2,6 @@ main: function void() = {
 print;
 printf("");
 test();
-//return;
-//return 1;
+return;
+return 1;
 }

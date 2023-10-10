@@ -90,8 +90,17 @@ decl : TOKEN_IDENT TOKEN_COLON type optinit
 
 optinit : TOKEN_ASSIGN expr TOKEN_SEMI
         | TOKEN_ASSIGN TOKEN_LBRACE expr exprlst TOKEN_RBRACE TOKEN_SEMI
+        | TOKEN_ASSIGN arrliteral TOKEN_SEMI
         | TOKEN_SEMI
         ;
+
+arrliteral : TOKEN_LBRACE expr exprlst TOKEN_RBRACE
+           | TOKEN_LBRACE arrliteral arrliterallst TOKEN_RBRACE
+           ;
+
+arrliterallst : arrliterallst TOKEN_COMMA arrliteral
+              |
+              ;
 
 block: block stmt
      | 
@@ -135,7 +144,7 @@ stmt : expr TOKEN_SEMI
      | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt optelse
      | TOKEN_PRINT expr exprlst TOKEN_SEMI
      | TOKEN_PRINT TOKEN_SEMI
-     | TOKEN_RETURN expr TOKEN_SEMI
+     | TOKEN_RETURN optexpr TOKEN_SEMI
      | decl
      ;
 
