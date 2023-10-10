@@ -1,5 +1,6 @@
 main: function void() = {
 print;
+print 1, 2, "yes", 3.0, 'n';
 printf("");
 test();
 return;

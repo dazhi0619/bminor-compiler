@@ -1,0 +1,4 @@
+test:function void() = {
+print "I forgot the " "comma";
+return 0;
+}

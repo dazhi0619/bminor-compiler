@@ -1,0 +1,4 @@
+main: function integer (argc: integer, argv: array [5] string) = {
+  x:integer = 5**5;
+  return 0;
+}

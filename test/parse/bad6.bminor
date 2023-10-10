@@ -1,0 +1,5 @@
+
+main: function integer (argc: integer, argv: array [] string) = {
+  oops;I;forgot;a;semicolon
+  return 0;
+}
