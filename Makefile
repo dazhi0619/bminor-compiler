@@ -1,5 +1,5 @@
 options=-std=c1x
-objects=bminor.o encoder.o scanner.o parser.o
+objects=bminor.o encoder.o parser.o scanner.o
 
 bminor: $(objects)
 	gcc $(options) $(objects) -o bminor
@@ -22,6 +22,7 @@ clean:
 	rm -rf *.o bminor
 	rm -rf test/*/*.out
 	rm parser.c scanner.c
+	rm include/token.h
 
 test: bminor
 	./runtest.sh

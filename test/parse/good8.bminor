@@ -1,0 +1,7 @@
+main: function void() = {
+print;
+printf("");
+test();
+//return;
+//return 1;
+}

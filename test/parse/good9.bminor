@@ -1,0 +1,6 @@
+main: function void() = {
+for(i=0;i<3;i++) {
+test();
+}
+for(j=0;j<3;j++) test();
+}

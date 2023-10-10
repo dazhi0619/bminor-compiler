@@ -8,8 +8,8 @@
 %}
 
 /* Types */
-INTEGER_LITERAL [+-]?[0-9]+
-FLOAT_LITERAL [+-]?([0-9]*\.[0-9]+|[0-9]+(\.[0-9]+)?e[+-]?[0-9]+)
+INTEGER_LITERAL [0-9]+
+FLOAT_LITERAL ([0-9]*\.[0-9]+|[0-9]+(\.[0-9]+)?e[+-]?[0-9]+)
 CHAR_LITERAL  \'([^\\\']|\\[abefnrtv\'\"]|\\0x[0-9A-F][0-9A-F])\'
 STRING_LITERAL  \"([^\\\"]|\\.)*\"
 
@@ -18,9 +18,12 @@ DELIM [\n|\r\n|\ |\t]
 COMMA ,
 SEMICOLON ;
 COLON :
-PARENTHESIS \(|\)
-BRACKET \[|\]
-BRACE   \{|\}
+LPAREN \(
+RPAREN \)
+LBRACKET \[
+RBRACKET \]
+LBRACE \{
+RBRACE \}
 INCREMENT \+\+
 DECREMENT --
 MINUS  -
@@ -67,53 +70,55 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 {COMMENT}           {}
 {DELIM}             {}
 
-{INTEGER_LITERAL}   { return TOKEN_INT; }
-{FLOAT_LITERAL}     { return TOKEN_FLOAT; }
-{CHAR_LITERAL}      { return TOKEN_CHAR; }
-{STRING_LITERAL}    { return TOKEN_STRING; }
-{COMMA}   { printf("COMMA\n"); }
-{SEMICOLON}   { return TOKEN_SEMI; }
-{COLON}   { printf("COLON\n"); }
-\(        { return TOKEN_LPAREN; }
-\)        { return TOKEN_RPAREN; }
-{BRACKET}   { printf("BRACKET\n"); }
-{BRACE}   { printf("BRACE\n"); }
-{INCREMENT}   { printf("INCREMENT\n"); }
-{DECREMENT}   { printf("DECREMENT\n"); }
-{MINUS}   { return TOKEN_MINUS; }
-{NOT}   { printf("NOT\n"); }
-{EXPONENTIATION}   { printf("EXPONENTIATION\n"); }
-{MULTIPLICATION}   { return TOKEN_MUL; }
-{DIVISION}   { return TOKEN_DIV; }
-{REMAINDER}   { printf("REMAINDER\n"); }
 {ADDITION}   { return TOKEN_PLUS; }
-{LT}   { printf("LT\n"); }
-{LE}   { printf("LE\n"); }
-{GT}   { printf("GT\n"); }
-{GE}   { printf("GE\n"); }
-{EQ}   { printf("EQ\n"); }
-{NEQ}   { printf("NEQ\n"); }
-{AND}   { printf("AND\n"); }
-{OR}   { printf("OR\n"); }
-{ASSIGNMENT}   { printf("ASSIGNMENT\n"); }
-{ARRAY_KEYWORD}   { printf("ARRAY_KEYWORD\n"); }
-{AUTO_KEYWORD}   { printf("AUTO_KEYWORD\n"); }
-{BOOL_KEYWORD}   { printf("BOOL_KEYWORD\n"); }
-{CHAR_KEYWORD}   { printf("CHAR_KEYWORD\n"); }
-{ELSE_KEYWORD}   { printf("ELSE_KEYWORD\n"); }
-{FALSE_KEYWORD}   { printf("FALSE_KEYWORD\n"); }
-{FLOAT_KEYWORD}   { printf("FLOAT_KEYWORD\n"); }
-{FOR_KEYWORD}   { printf("FOR_KEYWORD\n"); }
-{FUNCTION_KEYWORD}   { printf("FUNCTION_KEYWORD\n"); }
-{IF_KEYWORD}   { printf("IF_KEYWORD\n"); }
-{INTEGER_KEYWORD}   { printf("INTEGER_KEYWORD\n"); }
-{PRINT_KEYWORD}   { printf("PRINT_KEYWORD\n"); }
-{RETURN_KEYWORD}   { printf("RETURN_KEYWORD\n"); }
-{STRING_KEYWORD}   { printf("STRING_KEYWORD\n"); }
-{TRUE_KEYWORD}   { printf("TRUE_KEYWORD\n"); }
-{VOID_KEYWORD}   { printf("VOID_KEYWORD\n"); }
-{WHILE_KEYWORD}   { printf("WHILE_KEYWORD\n"); }
-{IDENT}             { printf("IDENTIFIER %s\n", yytext); }
+{DIVISION}   { return TOKEN_DIV; }
+{INTEGER_LITERAL}   { return TOKEN_INT_LITERAL; }
+{FLOAT_LITERAL}     { return TOKEN_FLOAT_LITERAL; }
+{CHAR_LITERAL}      { return TOKEN_CHAR_LITERAL; }
+{STRING_LITERAL}    { return TOKEN_STRING_LITERAL; }
+{COMMA}   { return TOKEN_COMMA; }
+{SEMICOLON}   { return TOKEN_SEMI; }
+{COLON}   { return TOKEN_COLON; }
+{LPAREN}        { return TOKEN_LPAREN; }
+{RPAREN}        { return TOKEN_RPAREN; }
+{LBRACKET} { return TOKEN_LBRACKET; }
+{RBRACKET} { return TOKEN_RBRACKET; }
+{LBRACE}   { return TOKEN_LBRACE; }
+{RBRACE}   { return TOKEN_RBRACE; }
+{INCREMENT}   { return TOKEN_INCRE; }
+{DECREMENT}   { return TOKEN_DECRE; }
+{MINUS}   { return TOKEN_MINUS; }
+{NOT}   { return TOKEN_NOT; }
+{EXPONENTIATION}   { return TOKEN_EXP; }
+{MULTIPLICATION}   { return TOKEN_MUL; }
+{REMAINDER}   { return TOKEN_MOD; }
+{LT}   { return TOKEN_LT; }
+{LE}   { return TOKEN_LE; }
+{GT}   { return TOKEN_GT; }
+{GE}   { return TOKEN_GE; }
+{EQ}   { return TOKEN_EQ; }
+{NEQ}   { return TOKEN_NE; }
+{AND}   { return TOKEN_AND; }
+{OR}   { return TOKEN_OR; }
+{ASSIGNMENT}   { return TOKEN_ASSIGN; }
+{ARRAY_KEYWORD}   { return TOKEN_ARRAY; }
+{AUTO_KEYWORD}   { return TOKEN_AUTO; }
+{BOOL_KEYWORD}   { return TOKEN_BOOL; }
+{CHAR_KEYWORD}   { return TOKEN_CHAR; }
+{ELSE_KEYWORD}   { return TOKEN_ELSE; }
+{FALSE_KEYWORD}   { return TOKEN_FALSE; }
+{FLOAT_KEYWORD}   { return TOKEN_FLOAT; }
+{FOR_KEYWORD}   { return TOKEN_FOR; }
+{FUNCTION_KEYWORD}   { return TOKEN_FUNCTION; }
+{IF_KEYWORD}   { return TOKEN_IF; }
+{INTEGER_KEYWORD}   { return TOKEN_INT; }
+{PRINT_KEYWORD}   { return TOKEN_PRINT; }
+{RETURN_KEYWORD}   { return TOKEN_RETURN; }
+{STRING_KEYWORD}   { return TOKEN_STRING; }
+{TRUE_KEYWORD}   { return TOKEN_TRUE; }
+{VOID_KEYWORD}   { return TOKEN_VOID; }
+{WHILE_KEYWORD}   { return TOKEN_WHILE; }
+{IDENT}             { return TOKEN_IDENT; }
 
 .   { printf("ERROR: %s is unindentified.\n", yytext); return SCAN_ERROR; }
 
