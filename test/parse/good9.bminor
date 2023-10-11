@@ -3,4 +3,10 @@ for(i=0;i<3;i++) {
 test();
 }
 for(j=0;j<3;j++) test();
+//test(a+b*c, a++--);
+test(a+b*c, 1, "yes") * a;
+print "x:",x,"y:",y,"\n";
+if (x<0 && y>(a*b)) return;
+
+x=x+y*z/p;
 }

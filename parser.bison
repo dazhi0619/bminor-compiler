@@ -89,7 +89,6 @@ decl : TOKEN_IDENT TOKEN_COLON type optinit
      ;
 
 optinit : TOKEN_ASSIGN expr TOKEN_SEMI
-        | TOKEN_ASSIGN TOKEN_LBRACE expr exprlst TOKEN_RBRACE TOKEN_SEMI
         | TOKEN_ASSIGN arrliteral TOKEN_SEMI
         | TOKEN_SEMI
         ;
@@ -127,29 +126,36 @@ optfuncinit : TOKEN_ASSIGN TOKEN_LBRACE block TOKEN_RBRACE
             | TOKEN_SEMI
             ;
 
-paramlist : TOKEN_IDENT TOKEN_COLON simpletype optparam
-          | TOKEN_IDENT TOKEN_COLON TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET type;
+paramlist : TOKEN_IDENT TOKEN_COLON paramtype optparam
           | 
           ;
 
-optparam  : optparam TOKEN_COMMA TOKEN_IDENT TOKEN_COLON simpletype
-          | optparam TOKEN_COMMA TOKEN_IDENT TOKEN_COLON TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET type
+paramtype : simpletype
+          | arrparam
+          ;
+
+arrparam  : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET paramtype;
+
+optparam  : optparam TOKEN_COMMA TOKEN_IDENT TOKEN_COLON paramtype
           |
           ;
 
 stmt : expr TOKEN_SEMI
-     | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN TOKEN_LBRACE block TOKEN_RBRACE
      | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN stmt
-     | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN TOKEN_LBRACE block TOKEN_RBRACE optelse
      | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt optelse
      | TOKEN_PRINT expr exprlst TOKEN_SEMI
      | TOKEN_PRINT TOKEN_SEMI
      | TOKEN_RETURN optexpr TOKEN_SEMI
      | decl
+     | TOKEN_LBRACE TOKEN_RBRACE
+     | TOKEN_LBRACE stmt optstmt TOKEN_RBRACE
      ;
 
+optstmt : stmt
+        |
+        ;
+
 optelse : TOKEN_ELSE stmt
-        | TOKEN_ELSE TOKEN_LBRACE block TOKEN_RBRACE
         |
         ;
 
@@ -187,10 +193,10 @@ compared : compared TOKEN_PLUS term    { $$ = $1 + $3; }
          | term                    { $$ = $1; }
          ;
 
-term : term TOKEN_MUL exponent   { $$ = $1 * $3; }
-     | term TOKEN_DIV exponent   { $$ = $1 / $3; }
-     | term TOKEN_MOD exponent   { $$ = $1 % $3; }
-     | exponent                  { $$ = $1; }
+term : term TOKEN_MUL exponent
+     | term TOKEN_DIV exponent
+     | term TOKEN_MOD exponent
+     | exponent
      ;
 
 exponent  : exponent TOKEN_EXP multiplier
@@ -209,16 +215,21 @@ factor: value TOKEN_INCRE      { $$ = $1++; }
       ;
 
 value: TOKEN_LPAREN expr TOKEN_RPAREN { $$ = $2; }
-     | TOKEN_IDENT TOKEN_LPAREN optexpr TOKEN_RPAREN
+     | TOKEN_IDENT TOKEN_LPAREN expr exprlst TOKEN_RPAREN
+     | TOKEN_IDENT TOKEN_LPAREN TOKEN_RPAREN
      | TOKEN_INT_LITERAL              { $$ = atoi(yytext); }
      | TOKEN_FLOAT_LITERAL            { $$ = atof(yytext); }
      | TOKEN_CHAR_LITERAL
      | TOKEN_STRING_LITERAL
      | TOKEN_TRUE                     { $$ = 1; }
      | TOKEN_FALSE                    { $$ = 0; }
-     | TOKEN_IDENT TOKEN_LBRACKET expr TOKEN_RBRACKET
+     | TOKEN_IDENT TOKEN_LBRACKET expr TOKEN_RBRACKET optarrvalue
      | TOKEN_IDENT
      ;
+
+optarrvalue : optarrvalue TOKEN_LBRACKET expr TOKEN_RBRACKET
+            |
+            ;
 
 %%
 

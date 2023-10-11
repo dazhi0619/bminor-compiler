@@ -1,10 +1,15 @@
-printarray: function void ( a: array [] integer ) = {
+printarray: function void ( a: array [] array [] integer, y: char, z: string ) = {
 	i: integer;
 	for( i=0;i<array_length(a);i++) {
 		print a[i], "\n";
 	}
   // An arithmetic expression statement.
-  y = m*x + b;
+  y:float = m*x + b;
+  z:string="hello";
+  func('c');
+  func("z");
+  func(3, 2, 1);
+  func("4", 3, '2');
 
   // A return statement.
   return (f-32)*5/9;
@@ -21,6 +26,19 @@ printarray: function void ( a: array [] integer ) = {
   // A for loop statement.
   for( i=0; i<100; i++ ) {
       print i;
+  }
+
+  x = x*-5;
+
+  for (;;) {
+    print;
+  }
+  {}
+  {
+  return;
+  {{
+  print;
+  }}
   }
 }
 
