@@ -5,4 +5,5 @@ main: function void() = {
   else {true;}
   if (x>y) true;
   if (x>y) if (f) f++; else f--;
+  if (a) if (b) if (c) a; else b; else c;
 }

@@ -1,4 +1,4 @@
-options=-std=c1x
+options=-std=gnu1x
 objects=bminor.o encoder.o parser.o scanner.o
 
 bminor: $(objects)

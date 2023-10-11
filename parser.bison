@@ -142,7 +142,8 @@ optparam  : optparam TOKEN_COMMA TOKEN_IDENT TOKEN_COLON paramtype
 
 stmt : expr TOKEN_SEMI
      | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN stmt
-     | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt optelse
+     | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt
+     | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN innerstmt TOKEN_ELSE innerstmt
      | TOKEN_PRINT expr exprlst TOKEN_SEMI
      | TOKEN_PRINT TOKEN_SEMI
      | TOKEN_RETURN optexpr TOKEN_SEMI
@@ -151,11 +152,18 @@ stmt : expr TOKEN_SEMI
      | TOKEN_LBRACE stmt optstmt TOKEN_RBRACE
      ;
 
-optstmt : stmt
-        |
-        ;
+innerstmt : expr TOKEN_SEMI
+          | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN innerstmt
+          | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN innerstmt TOKEN_ELSE innerstmt
+          | TOKEN_PRINT expr exprlst TOKEN_SEMI
+          | TOKEN_PRINT TOKEN_SEMI
+          | TOKEN_RETURN optexpr TOKEN_SEMI
+          | decl
+          | TOKEN_LBRACE TOKEN_RBRACE
+          | TOKEN_LBRACE stmt optstmt TOKEN_RBRACE
+          ;
 
-optelse : TOKEN_ELSE stmt
+optstmt : stmt
         |
         ;
 
