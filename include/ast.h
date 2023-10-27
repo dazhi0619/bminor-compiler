@@ -1,0 +1,6 @@
+#include "ast/decl.h"
+#include "ast/expr.h"
+#include "ast/param_list.h"
+#include "ast/stmt.h"
+#include "ast/type.h"
+#include "ast/symbol.h"
