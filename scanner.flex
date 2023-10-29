@@ -130,4 +130,5 @@ int yyscanmain(FILE* file) {
   if (yylex() == SCAN_ERROR) {
     return 1;
   }
+  return 0;
 }

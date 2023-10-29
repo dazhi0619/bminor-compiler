@@ -277,4 +277,5 @@ int yyprintmain(FILE* file) {
     yyerror("empty root node");
   }
   decl_print(root, 0);
+  return 0;
 }

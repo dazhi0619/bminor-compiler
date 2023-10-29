@@ -15,7 +15,8 @@ file = hash_table_lookup(h,pathname);
 
 </pre>
 
-To list all of the items in a hash table, use @ref hash_table_firstkey and @ref hash_table_nextkey like this:
+To list all of the items in a hash table, use @ref hash_table_firstkey and @ref
+hash_table_nextkey like this:
 
 <pre>
 char *key;
@@ -24,7 +25,7 @@ void *value;
 hash_table_firstkey(h);
 
 while(hash_table_nextkey(h,&key,&value)) {
-	printf("table contains: %s\n",key);
+        printf("table contains: %s\n",key);
 }
 </pre>
 
@@ -32,26 +33,29 @@ while(hash_table_nextkey(h,&key,&value)) {
 
 /** The type signature for a hash function given to @ref hash_table_create */
 
-typedef unsigned (*hash_func_t) (const char *key);
+typedef unsigned (*hash_func_t)(const char *key);
 
 /** Create a new hash table.
-@param buckets The number of buckets in the table.  If zero, a default value will be used.
-@param func The default hash function to be used.  If zero, @ref hash_string will be used.
+@param buckets The number of buckets in the table.  If zero, a default value
+will be used.
+@param func The default hash function to be used.  If zero, @ref hash_string
+will be used.
 @return A pointer to a new hash table.
 */
 
 struct hash_table *hash_table_create(int buckets, hash_func_t func);
 
 /** Remove all entries from an hash table.
-Note that this function will not delete all of the objects contained within the hash table.
+Note that this function will not delete all of the objects contained within the
+hash table.
 @param h The hash table to delete.
 */
 
 void hash_table_clear(struct hash_table *h);
 
-
 /** Delete a hash table.
-Note that this function will not delete all of the objects contained within the hash table.
+Note that this function will not delete all of the objects contained within the
+hash table.
 @param h The hash table to delete.
 */
 

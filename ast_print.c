@@ -1,18 +1,19 @@
-#include "include/ast.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-char* create_indent(int level) {
-  char* indent_string = (char *) malloc(level * 2 + 1);
+#include "include/ast.h"
+
+char *create_indent(int level) {
+  char *indent_string = (char *)malloc(level * 2 + 1);
   memset(indent_string, 32, level * 2);
-  indent_string[level*2] = 0;
+  indent_string[level * 2] = 0;
   return indent_string;
 }
 
 void decl_print(struct decl *d, int indent) {
   if (!d) return;
-  char* indent_string = create_indent(indent);
+  char *indent_string = create_indent(indent);
   printf("%s", indent_string);
   printf("%s: ", d->name);
   type_print(d->type);
@@ -21,7 +22,7 @@ void decl_print(struct decl *d, int indent) {
     expr_print(d->value);
     printf(";\n");
   } else if (d->code) {
-    printf(" =\n", indent_string);
+    printf(" =\n");
     stmt_print(d->code, indent);
     printf("%s\n", indent_string);
   } else {
@@ -41,122 +42,122 @@ void expr_print(struct expr *e) {
       case EXPR_NEG:
       case EXPR_NOT:
       case EXPR_POS:
-      switch (e->left->kind) {
-        case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_EXP:
-      switch (e->left->kind) {
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_MUL:
       case EXPR_DIV:
       case EXPR_MOD:
-      switch (e->left->kind) {
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_ADD:
       case EXPR_SUB:
-      switch (e->left->kind) {
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_LT:
       case EXPR_LE:
       case EXPR_GT:
       case EXPR_GE:
       case EXPR_EQ:
       case EXPR_NE:
-      switch (e->left->kind) {
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->left->kind) {
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_AND:
-      switch (e->left->kind) {
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->left->kind) {
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_OR:
-      if (e->left->kind == EXPR_ASSIGN) {
-        printf("(");
-      }
-      break;
+        if (e->left->kind == EXPR_ASSIGN) {
+          printf("(");
+        }
+        break;
       default:
-      break;
+        break;
     }
     expr_print(e->left);
   }
@@ -165,313 +166,337 @@ void expr_print(struct expr *e) {
       case EXPR_NEG:
       case EXPR_NOT:
       case EXPR_POS:
-      switch (e->left->kind) {
-        case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_EXP:
-      switch (e->left->kind) {
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_MUL:
       case EXPR_DIV:
       case EXPR_MOD:
-      switch (e->left->kind) {
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_ADD:
       case EXPR_SUB:
-      switch (e->left->kind) {
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->left->kind) {
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_LT:
       case EXPR_LE:
       case EXPR_GT:
       case EXPR_GE:
       case EXPR_EQ:
       case EXPR_NE:
-      switch (e->left->kind) {
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->left->kind) {
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_AND:
-      switch (e->left->kind) {
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->left->kind) {
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_OR:
-      if (e->left->kind == EXPR_ASSIGN) {
-        printf(")");
-      }
-      break;
+        if (e->left->kind == EXPR_ASSIGN) {
+          printf(")");
+        }
+        break;
       default:
-      break;
+        break;
     }
   }
   switch (e->kind) {
     case EXPR_ADD:
-    printf("+"); break;
+      printf("+");
+      break;
     case EXPR_SUB:
-    printf("-"); break;
+      printf("-");
+      break;
     case EXPR_MUL:
-    printf("*"); break;
+      printf("*");
+      break;
     case EXPR_DIV:
-    printf("/"); break;
+      printf("/");
+      break;
     case EXPR_LIST:
-    if (e->left && e->right) printf(","); break;
+      if (e->left && e->right) printf(",");
+      break;
     case EXPR_ASSIGN:
-    printf("="); break;
+      printf("=");
+      break;
     case EXPR_OR:
-    printf("||"); break;
+      printf("||");
+      break;
     case EXPR_AND:
-    printf("&&"); break;
+      printf("&&");
+      break;
     case EXPR_LT:
-    printf("<"); break;
+      printf("<");
+      break;
     case EXPR_LE:
-    printf("<="); break;
+      printf("<=");
+      break;
     case EXPR_GT:
-    printf(">"); break;
+      printf(">");
+      break;
     case EXPR_GE:
-    printf(">="); break;
+      printf(">=");
+      break;
     case EXPR_EQ:
-    printf("=="); break;
+      printf("==");
+      break;
     case EXPR_NE:
-    printf("!="); break;
+      printf("!=");
+      break;
     case EXPR_NEG:
-    printf("-"); break;
+      printf("-");
+      break;
     case EXPR_POS:
-    printf("+"); break;
+      printf("+");
+      break;
     case EXPR_NOT:
-    printf("!"); break;
+      printf("!");
+      break;
     case EXPR_MOD:
-    printf("%"); break;
+      printf("%%");
+      break;
     case EXPR_SELF_ADD:
-    printf("++"); break;
+      printf("++");
+      break;
     case EXPR_SELF_SUB:
-    printf("--"); break;
+      printf("--");
+      break;
     case EXPR_EXP:
-    printf("^"); break;
+      printf("^");
+      break;
     case EXPR_SUBSCRIPT:
-    printf("["); break;
+      printf("[");
+      break;
     case EXPR_ARG:
-    if (e->right) printf(", "); break;
+      if (e->right) printf(", ");
+      break;
     case EXPR_CALL:
-    printf("("); break;
+      printf("(");
+      break;
     default:
-    break;
+      break;
   }
   if (e->right) {
     switch (e->kind) {
       case EXPR_NEG:
       case EXPR_NOT:
       case EXPR_POS:
-      switch (e->right->kind) {
-      case EXPR_NEG:
-      case EXPR_NOT:
-      case EXPR_POS:
-        case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_NEG:
+          case EXPR_NOT:
+          case EXPR_POS:
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_EXP:
-      switch (e->right->kind) {
-      case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_MUL:
       case EXPR_DIV:
       case EXPR_MOD:
-      switch (e->right->kind) {
-      case EXPR_MUL:
-      case EXPR_DIV:
-      case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_ADD:
       case EXPR_SUB:
-      switch (e->right->kind) {
-      case EXPR_ADD:
-      case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_LT:
       case EXPR_LE:
       case EXPR_GT:
       case EXPR_GE:
       case EXPR_EQ:
       case EXPR_NE:
-      switch (e->right->kind) {
-      case EXPR_LT:
-      case EXPR_LE:
-      case EXPR_GT:
-      case EXPR_GE:
-      case EXPR_EQ:
-      case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->right->kind) {
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_AND:
-      switch (e->right->kind) {
-      case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf("(");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->right->kind) {
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf("(");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_OR:
-      if (e->right->kind == EXPR_ASSIGN) {
-        printf("(");
-      }
-      break;
+        if (e->right->kind == EXPR_ASSIGN) {
+          printf("(");
+        }
+        break;
       default:
-      break;
+        break;
     }
     expr_print(e->right);
   }
@@ -480,258 +505,275 @@ void expr_print(struct expr *e) {
       case EXPR_NEG:
       case EXPR_NOT:
       case EXPR_POS:
-      switch (e->right->kind) {
-      case EXPR_NEG:
-      case EXPR_NOT:
-      case EXPR_POS:
-        case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_NEG:
+          case EXPR_NOT:
+          case EXPR_POS:
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_EXP:
-      switch (e->right->kind) {
-      case EXPR_EXP:
-        case EXPR_MUL:
-        case EXPR_DIV:
-        case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_EXP:
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_MUL:
       case EXPR_DIV:
       case EXPR_MOD:
-      switch (e->right->kind) {
-      case EXPR_MUL:
-      case EXPR_DIV:
-      case EXPR_MOD:
-        case EXPR_ADD:
-        case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_MUL:
+          case EXPR_DIV:
+          case EXPR_MOD:
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_ADD:
       case EXPR_SUB:
-      switch (e->right->kind) {
-      case EXPR_ADD:
-      case EXPR_SUB:
-        case EXPR_LT:
-        case EXPR_LE:
-        case EXPR_GT:
-        case EXPR_GE:
-        case EXPR_EQ:
-        case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
+        switch (e->right->kind) {
+          case EXPR_ADD:
+          case EXPR_SUB:
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
         }
-      break;
+        break;
       case EXPR_LT:
       case EXPR_LE:
       case EXPR_GT:
       case EXPR_GE:
       case EXPR_EQ:
       case EXPR_NE:
-      switch (e->right->kind) {
-      case EXPR_LT:
-      case EXPR_LE:
-      case EXPR_GT:
-      case EXPR_GE:
-      case EXPR_EQ:
-      case EXPR_NE:
-        case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->right->kind) {
+          case EXPR_LT:
+          case EXPR_LE:
+          case EXPR_GT:
+          case EXPR_GE:
+          case EXPR_EQ:
+          case EXPR_NE:
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_AND:
-      switch (e->right->kind) {
-      case EXPR_AND:
-        case EXPR_OR:
-        case EXPR_ASSIGN:
-          printf(")");
-          break;
-        default:
-          break;
-      }
-      break;
+        switch (e->right->kind) {
+          case EXPR_AND:
+          case EXPR_OR:
+          case EXPR_ASSIGN:
+            printf(")");
+            break;
+          default:
+            break;
+        }
+        break;
       case EXPR_OR:
-      if (e->right->kind == EXPR_ASSIGN) {
-        printf(")");
-      }
-      break;
+        if (e->right->kind == EXPR_ASSIGN) {
+          printf(")");
+        }
+        break;
       default:
-      break;
+        break;
     }
   }
   switch (e->kind) {
     case EXPR_CALL:
-    printf(")"); break;
+      printf(")");
+      break;
     case EXPR_SUBSCRIPT:
-    printf("]"); break;
+      printf("]");
+      break;
     case EXPR_NAME:
-    printf("%s", e->name); break;
+      printf("%s", e->name);
+      break;
     case EXPR_STRING_LITERAL:
-    printf("\"%s\"", e->string_literal); break;
+      printf("\"%s\"", e->string_literal);
+      break;
     case EXPR_INTEGER_LITERAL:
-    printf("%d", e->literal_value); break;
+      printf("%d", e->literal_value);
+      break;
     case EXPR_FLOAT_LITERAL:
-    printf("%g", e->float_literal); break;
+      printf("%g", e->float_literal);
+      break;
     case EXPR_CHAR_LITERAL:
-    printf("\'%c\'", e->literal_value); break;
+      printf("\'%c\'", e->literal_value);
+      break;
     case EXPR_BOOLEAN_LITERAL:
-    if (e->literal_value) {
-      printf("true");
-    } else {
-      printf("false");
-    }
-    break;
+      if (e->literal_value) {
+        printf("true");
+      } else {
+        printf("false");
+      }
+      break;
     default:
-    break;
+      break;
   }
   if (e->kind == EXPR_LIST) {
     if (!e->left) printf("}");
   }
 }
 
-void stmt_print(struct stmt* s, int indent) {
+void stmt_print(struct stmt *s, int indent) {
   if (!s) return;
-  char* indent_string = create_indent(indent);
+  char *indent_string = create_indent(indent);
   switch (s->kind) {
     case STMT_DECL:
-    decl_print(s->decl, indent); break;
+      decl_print(s->decl, indent);
+      break;
     case STMT_EXPR:
-    printf("%s", indent_string); expr_print(s->expr); printf(";\n"); break;
+      printf("%s", indent_string);
+      expr_print(s->expr);
+      printf(";\n");
+      break;
     case STMT_IF_ELSE:
-    printf("%sif (", indent_string);
-    expr_print(s->expr);
-    printf(")\n");
-    stmt_print(s->body, indent + 1);
-    if (s->else_body) {
-      printf("%selse\n", indent_string);
-      stmt_print(s->else_body, indent + 1);
-    }
-    break;
-    case STMT_FOR:
-    printf("%sfor (", indent_string);
-    expr_print(s->init_expr);
-    printf("; ");
-    expr_print(s->expr);
-    printf("; ");
-    expr_print(s->next_expr);
-    printf(")\n");
-    stmt_print(s->body, indent + 1);
-    break;
-    case STMT_PRINT:
-    printf("%sprint", indent_string);
-    if (s->expr) {
-      printf(" ");
+      printf("%sif (", indent_string);
       expr_print(s->expr);
-    }
-    printf(";\n");
-    break;
-    case STMT_RETURN:
-    printf("%sreturn", indent_string);
-    if (s->expr) {
-      printf(" ");
-      expr_print(s->expr);
-    }
-    printf(";\n");
-    break;
-    case STMT_BLOCK:
-    if (s->body) {
-      printf("%s{\n", indent_string);
+      printf(")\n");
       stmt_print(s->body, indent + 1);
-      printf("%s}\n", indent_string);
-    }
-    break;
+      if (s->else_body) {
+        printf("%selse\n", indent_string);
+        stmt_print(s->else_body, indent + 1);
+      }
+      break;
+    case STMT_FOR:
+      printf("%sfor (", indent_string);
+      expr_print(s->init_expr);
+      printf("; ");
+      expr_print(s->expr);
+      printf("; ");
+      expr_print(s->next_expr);
+      printf(")\n");
+      stmt_print(s->body, indent + 1);
+      break;
+    case STMT_PRINT:
+      printf("%sprint", indent_string);
+      if (s->expr) {
+        printf(" ");
+        expr_print(s->expr);
+      }
+      printf(";\n");
+      break;
+    case STMT_RETURN:
+      printf("%sreturn", indent_string);
+      if (s->expr) {
+        printf(" ");
+        expr_print(s->expr);
+      }
+      printf(";\n");
+      break;
+    case STMT_BLOCK:
+      if (s->body) {
+        printf("%s{\n", indent_string);
+        stmt_print(s->body, indent + 1);
+        printf("%s}\n", indent_string);
+      }
+      break;
   }
   free(indent_string);
   if (s->next) stmt_print(s->next, indent);
 }
 
-void type_print(struct type* t) {
+void type_print(struct type *t) {
   if (!t) return;
   switch (t->kind) {
     case TYPE_VOID:
-    printf("void"); break;
+      printf("void");
+      break;
     case TYPE_BOOLEAN:
-    printf("boolean"); break;
+      printf("boolean");
+      break;
     case TYPE_CHARACTER:
-    printf("char"); break;
+      printf("char");
+      break;
     case TYPE_INTEGER:
-    printf("integer"); break;
+      printf("integer");
+      break;
     case TYPE_FLOAT:
-    printf("float"); break;
+      printf("float");
+      break;
     case TYPE_STRING:
-    printf("string"); break;
+      printf("string");
+      break;
     case TYPE_ARRAY:
-    printf("array [");
-    expr_print(t->arr_len);
-    printf("] ");
-    type_print(t->subtype);
-    break;
+      printf("array [");
+      expr_print(t->arr_len);
+      printf("] ");
+      type_print(t->subtype);
+      break;
     case TYPE_FUNCTION:
-    printf("function ");
-    type_print(t->subtype);
-    printf("(");
-    param_list_print(t->params);
-    printf(")");
-    break;
+      printf("function ");
+      type_print(t->subtype);
+      printf("(");
+      param_list_print(t->params);
+      printf(")");
+      break;
   }
 }
 
-void param_list_print(struct param_list* p) {
+void param_list_print(struct param_list *p) {
   if (!p) return;
   printf("%s: ", p->name);
   type_print(p->type);

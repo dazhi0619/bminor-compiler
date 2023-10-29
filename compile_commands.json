@@ -1,0 +1,86 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "bminor.o",
+      "bminor.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/bminor.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/bminor.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "encoder.o",
+      "encoder.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/encoder.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/encoder.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "parser.o",
+      "parser.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/parser.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/parser.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "scanner.o",
+      "scanner.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/scanner.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/scanner.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "ast_constr.o",
+      "ast_constr.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/ast_constr.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/ast_constr.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "ast_print.o",
+      "ast_print.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/ast_print.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/ast_print.o"
+  }
+]
