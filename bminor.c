@@ -13,14 +13,15 @@ int main(int argc, char *argv[]) {
   static struct option long_options[] = {
     {"encode", required_argument, NULL, 0},
     {"scan", required_argument, NULL, 0},
-    {"parse", required_argument, NULL, 0}
+    {"parse", required_argument, NULL, 0},
+    {"print", required_argument, NULL, 0}
   };
-  argument = getopt_long(argc, argv, "", long_options, &option_index);
+  argument = getopt_long_only(argc, argv, "", long_options, &option_index);
 
   if (argument != 0) return 1;
 
   FILE *file = fopen(optarg, "r");
-  if(!file) {
+  if (!file) {
     printf("ERROR: file invalid.\n");
     return 1;
   }
@@ -29,6 +30,7 @@ int main(int argc, char *argv[]) {
   char input[LINE_MAX];
   char decoded[LINE_MAX];
   char encoded[LINE_MAX];
+
 
   switch (option_index) {
     case 0:
@@ -51,6 +53,9 @@ int main(int argc, char *argv[]) {
 
     case 2:
       return yyparsemain(file);
+
+    case 3:
+      return yyprintmain(file);
 
     default:
       printf("Illegal option!\n");

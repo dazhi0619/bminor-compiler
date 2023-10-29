@@ -74,8 +74,8 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 {DIVISION}   { return TOKEN_DIV; }
 {INTEGER_LITERAL}   { return TOKEN_INT_LITERAL; }
 {FLOAT_LITERAL}     { return TOKEN_FLOAT_LITERAL; }
-{CHAR_LITERAL}      { return TOKEN_CHAR_LITERAL; }
-{STRING_LITERAL}    { return TOKEN_STRING_LITERAL; }
+{CHAR_LITERAL}      { yylval = (YYSTYPE) yytext[0]; return TOKEN_CHAR_LITERAL; }
+{STRING_LITERAL}    { yylval.string = strdup(yytext); return TOKEN_STRING_LITERAL; }
 {COMMA}   { return TOKEN_COMMA; }
 {SEMICOLON}   { return TOKEN_SEMI; }
 {COLON}   { return TOKEN_COLON; }
@@ -118,7 +118,7 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 {TRUE_KEYWORD}   { return TOKEN_TRUE; }
 {VOID_KEYWORD}   { return TOKEN_VOID; }
 {WHILE_KEYWORD}   { return TOKEN_WHILE; }
-{IDENT}             { return TOKEN_IDENT; }
+{IDENT}             { yylval.string = strdup(yytext); return TOKEN_IDENT; }
 
 .   { printf("ERROR: %s is unindentified.\n", yytext); return SCAN_ERROR; }
 

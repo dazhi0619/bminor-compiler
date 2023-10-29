@@ -1,0 +1,2 @@
+test:integer=0;
+test : char = 'a';
