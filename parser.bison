@@ -28,11 +28,13 @@ struct decl* root = 0;
   struct symbol* symbol;
   char* string;
   char character;
+  int integer;
+  double floating;
 }
 
 %type <decl> program decl
-%type <stmt> block optfuncinit stmt innerstmt optstmt
-%type <expr> optinit arrliteral arrliterallst exprlst optexpr expr rightval or_operand and_operand compared term exponent factor value optarrvalue multiplier
+%type <stmt> block optfuncinit stmt innerstmt
+%type <expr> optinit arrliteral arrliterallst exprlst arrlst optexpr expr rightval or_operand and_operand compared term exponent factor value optarrvalue multiplier
 %type <type> type simpletype arrtype functype paramtype arrparam
 %type <param_list> paramlist optparam
 
@@ -90,9 +92,9 @@ struct decl* root = 0;
 %token TOKEN_COLON
 
 /* literals */
-%token TOKEN_INT_LITERAL
-%token TOKEN_FLOAT_LITERAL
-%token <string> TOKEN_STRING_LITERAL
+%token <integer>   TOKEN_INT_LITERAL
+%token <floating>  TOKEN_FLOAT_LITERAL
+%token <string>    TOKEN_STRING_LITERAL
 %token <character> TOKEN_CHAR_LITERAL
 
 /* identifier */
@@ -101,7 +103,7 @@ struct decl* root = 0;
 %%
 
 program : decl program      { $1->next = $2; root = $1; }
-        |                   { root = NULL; }
+        |                   { $$ = NULL; root = NULL; }
         ;
 
 decl : TOKEN_IDENT TOKEN_COLON type optinit   { $$ = decl_create($1, $3, $4, NULL, NULL, NULL); }
@@ -113,8 +115,8 @@ optinit : TOKEN_ASSIGN expr TOKEN_SEMI        { $$ = $2; }
         | TOKEN_SEMI                          { $$ = NULL; }
         ;
 
-arrliteral : TOKEN_LBRACE expr exprlst TOKEN_RBRACE              { $$ = expr_create(EXPR_LIST, $2, $3); }
-           | TOKEN_LBRACE arrliteral arrliterallst TOKEN_RBRACE  { $$ = expr_create(EXPR_LIST, $2, $3); }
+arrliteral : TOKEN_LBRACE expr exprlst TOKEN_RBRACE              { struct expr* head = expr_create(EXPR_LIST, $2, $3); $$ = expr_create(EXPR_LIST, NULL, head); }
+           | TOKEN_LBRACE arrliteral arrliterallst TOKEN_RBRACE  { struct expr* head = expr_create(EXPR_LIST, $2, $3); $$ = expr_create(EXPR_LIST, NULL, head); }
            ;
 
 arrliterallst : TOKEN_COMMA arrliteral arrliterallst  { $$ = expr_create(EXPR_LIST, $2, $3); }
@@ -122,7 +124,7 @@ arrliterallst : TOKEN_COMMA arrliteral arrliterallst  { $$ = expr_create(EXPR_LI
               ;
 
 block: stmt block  { $1->next = $2; $$ = $1; }
-     |      { $$ = NULL; }
+     |  { $$ = NULL; }
      ;
 
 type : simpletype  { $$ = $1; }
@@ -138,7 +140,7 @@ simpletype : TOKEN_INT  { $$ = type_create(TYPE_INTEGER, NULL, NULL); }
      | TOKEN_VOID       { $$ = type_create(TYPE_VOID, NULL, NULL); }
      ;
 
-arrtype   : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_INT_LITERAL TOKEN_RBRACKET type  { $$ = type_create(TYPE_ARRAY, $5, NULL); };
+arrtype   : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_INT_LITERAL TOKEN_RBRACKET type  { $$ = type_create(TYPE_ARRAY, $5, NULL); $$->arr_len = $3; };
 
 functype  : type TOKEN_LPAREN paramlist TOKEN_RPAREN       { $$ = type_create(TYPE_FUNCTION, $1, $3); };
 
@@ -146,7 +148,7 @@ optfuncinit : TOKEN_ASSIGN TOKEN_LBRACE block TOKEN_RBRACE  { $$ = stmt_create(S
             | TOKEN_SEMI  { $$ = NULL; }
             ;
 
-paramlist : TOKEN_IDENT TOKEN_COLON paramtype optparam  { $$ = param_list_create($1, $3, NULL); }
+paramlist : TOKEN_IDENT TOKEN_COLON paramtype optparam  { $$ = param_list_create($1, $3, $4); }
           |  { $$ = NULL; }
           ;
 
@@ -154,9 +156,9 @@ paramtype : simpletype  { $$ = $1; }
           | arrparam    { $$ = $1; }
           ;
 
-arrparam  : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET paramtype    { $$ = type_create(TYPE_ARRAY, $4, NULL); };
+arrparam  : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET paramtype    { $$ = type_create(TYPE_FUNCTION_ARRAY_PARAM, $4, NULL); };
 
-optparam  : optparam TOKEN_COMMA TOKEN_IDENT TOKEN_COLON paramtype  { $$ = param_list_create($3, $5, NULL); $$->next = $1; }
+optparam  : TOKEN_COMMA TOKEN_IDENT TOKEN_COLON paramtype optparam  { $$ = param_list_create($2, $4, $5); }
           |  { $$ = NULL; }
           ;
 
@@ -164,27 +166,25 @@ stmt : expr TOKEN_SEMI  { $$ = stmt_create(STMT_EXPR, NULL, NULL, $1, NULL, NULL
      | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN stmt  { $$ = stmt_create(STMT_FOR, NULL, $3, $5, $7, $9, NULL, NULL); }
      | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN stmt  { $$ = stmt_create(STMT_IF_ELSE, NULL, NULL, $3, NULL, $5, NULL, NULL); }
      | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN innerstmt TOKEN_ELSE innerstmt  { $$ = stmt_create(STMT_IF_ELSE, NULL, NULL, $3, NULL, $5, $7, NULL); }
-     | TOKEN_PRINT expr exprlst TOKEN_SEMI  { struct expr* lst = expr_create(EXPR_LIST, $2, $3); $$ = stmt_create(STMT_PRINT, NULL, NULL, lst, NULL, NULL, NULL, NULL); }
+     | TOKEN_PRINT expr arrlst TOKEN_SEMI  { struct expr* lst = expr_create(EXPR_ARG, $2, $3); $$ = stmt_create(STMT_PRINT, NULL, NULL, lst, NULL, NULL, NULL, NULL); }
      | TOKEN_PRINT TOKEN_SEMI  { $$ = stmt_create(STMT_PRINT, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
      | TOKEN_RETURN optexpr TOKEN_SEMI  { $$ = stmt_create(STMT_RETURN, NULL, NULL, $2, NULL, NULL, NULL, NULL); }
      | decl  { $$ = stmt_create(STMT_DECL, $1, NULL, NULL, NULL, NULL, NULL, NULL); }
-     | TOKEN_LBRACE TOKEN_RBRACE  { $$ = stmt_create(STMT_BLOCK, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
-     | TOKEN_LBRACE stmt optstmt TOKEN_RBRACE  { $2->next = $3; }
+     | TOKEN_LBRACE block TOKEN_RBRACE  { $$ = stmt_create(STMT_BLOCK, NULL, NULL, NULL, NULL, $2, NULL, NULL); }
      ;
 
 innerstmt : expr TOKEN_SEMI  { $$ = stmt_create(STMT_EXPR, NULL, NULL, $1, NULL, NULL, NULL, NULL); }
           | TOKEN_FOR TOKEN_LPAREN optexpr TOKEN_SEMI optexpr TOKEN_SEMI optexpr TOKEN_RPAREN innerstmt  { $$ = stmt_create(STMT_FOR, NULL, $3, $5, $7, $9, NULL, NULL); } 
           | TOKEN_IF TOKEN_LPAREN expr TOKEN_RPAREN innerstmt TOKEN_ELSE innerstmt  { $$ = stmt_create(STMT_IF_ELSE, NULL, NULL, $3, NULL, $5, $7, NULL); } 
-          | TOKEN_PRINT expr exprlst TOKEN_SEMI  { struct expr* lst = expr_create(EXPR_LIST, $2, $3); $$ = stmt_create(STMT_PRINT, NULL, NULL, lst, NULL, NULL, NULL, NULL); }
-          | TOKEN_PRINT TOKEN_SEMI  { $$ = stmt_create(STMT_RETURN, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
+          | TOKEN_PRINT expr arrlst TOKEN_SEMI  { struct expr* lst = expr_create(EXPR_ARG, $2, $3); $$ = stmt_create(STMT_PRINT, NULL, NULL, lst, NULL, NULL, NULL, NULL); }
+          | TOKEN_PRINT TOKEN_SEMI  { $$ = stmt_create(STMT_PRINT, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
           | TOKEN_RETURN optexpr TOKEN_SEMI  { $$ = stmt_create(STMT_RETURN, NULL, NULL, $2, NULL, NULL, NULL, NULL); }
           | decl  { $$ = stmt_create(STMT_DECL, $1, NULL, NULL, NULL, NULL, NULL, NULL); }
-          | TOKEN_LBRACE TOKEN_RBRACE  { $$ = stmt_create(STMT_BLOCK, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
-          | TOKEN_LBRACE stmt optstmt TOKEN_RBRACE  { $2->next = $3; }
+          | TOKEN_LBRACE block TOKEN_RBRACE  { $$ = stmt_create(STMT_BLOCK, NULL, NULL, NULL, NULL, $2, NULL, NULL); }
           ;
 
-optstmt : stmt  { $$ = $1; }
-        |       { $$ = NULL; }
+arrlst  : TOKEN_COMMA expr arrlst   { $$ = expr_create(EXPR_ARG, $2, $3); }
+        |  { $$ = NULL; }
         ;
 
 exprlst : TOKEN_COMMA expr exprlst  { $$ = expr_create(EXPR_LIST, $2, $3); }
@@ -243,16 +243,16 @@ factor: value TOKEN_INCRE      { $$ = expr_create(EXPR_SELF_ADD, $1, NULL); }
       ;
 
 value: TOKEN_LPAREN expr TOKEN_RPAREN { $$ = $2; }
-     | TOKEN_IDENT TOKEN_LPAREN expr exprlst TOKEN_RPAREN  { struct expr* name = expr_create_name($1); struct expr* args = expr_create(EXPR_ARG, $3, $4); $$ = expr_create(EXPR_CALL, name, args); }
+     | TOKEN_IDENT TOKEN_LPAREN expr arrlst TOKEN_RPAREN  { struct expr* name = expr_create_name($1); struct expr* args = expr_create(EXPR_ARG, $3, $4); $$ = expr_create(EXPR_CALL, name, args); }
      | TOKEN_IDENT TOKEN_LPAREN TOKEN_RPAREN  { struct expr* name = expr_create_name($1); $$ = expr_create(EXPR_CALL, name, NULL); }
-     | TOKEN_INT_LITERAL              { $$ = expr_create_integer_literal(atoi(yytext)); }
-     | TOKEN_FLOAT_LITERAL            { $$ = expr_create_float_literal(atof(yytext)); }
+     | TOKEN_INT_LITERAL              { $$ = expr_create_integer_literal($1); }
+     | TOKEN_FLOAT_LITERAL            { $$ = expr_create_float_literal($1); }
      | TOKEN_CHAR_LITERAL             { $$ = expr_create_char_literal($1); }
      | TOKEN_STRING_LITERAL           { $$ = expr_create_string_literal($1); }
      | TOKEN_TRUE                     { $$ = expr_create_boolean_literal(1); }
      | TOKEN_FALSE                    { $$ = expr_create_boolean_literal(0); }
      | TOKEN_IDENT TOKEN_LBRACKET expr TOKEN_RBRACKET optarrvalue  { struct expr* name = expr_create_name($1); $3->right = $5; $$ = expr_create(EXPR_SUBSCRIPT, name, $3); }
-     | TOKEN_IDENT  { $$ = expr_create_name(yytext); }
+     | TOKEN_IDENT  { $$ = expr_create_name($1); }
      ;
 
 optarrvalue : optarrvalue TOKEN_LBRACKET expr TOKEN_RBRACKET  { $3->right = $1; $$ = $3; }
@@ -276,11 +276,5 @@ int yyprintmain(FILE* file) {
   if (!root) {
     yyerror("empty root node");
   }
-  struct decl* current = root;
-  int indent = 0;
-  do {
-    decl_print(current, indent);
-    indent++;
-    current = current->next;
-  } while (current);
+  decl_print(root, 0);
 }

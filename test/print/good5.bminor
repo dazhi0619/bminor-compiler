@@ -1,6 +1,8 @@
 main: function void() = {
   if (x > y) {
     false;
+    0;
+    0;
   }
   else {true;}
   if (x>y) true;

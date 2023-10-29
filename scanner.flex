@@ -72,10 +72,10 @@ COMMENT (\/\*([^*]|(\*+([^*\/])))*\*+\/)|(\/\/[^\n]*)
 
 {ADDITION}   { return TOKEN_PLUS; }
 {DIVISION}   { return TOKEN_DIV; }
-{INTEGER_LITERAL}   { return TOKEN_INT_LITERAL; }
-{FLOAT_LITERAL}     { return TOKEN_FLOAT_LITERAL; }
-{CHAR_LITERAL}      { yylval = (YYSTYPE) yytext[0]; return TOKEN_CHAR_LITERAL; }
-{STRING_LITERAL}    { yylval.string = strdup(yytext); return TOKEN_STRING_LITERAL; }
+{INTEGER_LITERAL}   { yylval.integer = atoi(yytext); return TOKEN_INT_LITERAL; }
+{FLOAT_LITERAL}     { yylval.floating = atof(yytext); return TOKEN_FLOAT_LITERAL; }
+{CHAR_LITERAL}      { yylval.character = yytext[1]; return TOKEN_CHAR_LITERAL; }
+{STRING_LITERAL}    { yylval.string = strdup(yytext + 1); yylval.string[strlen(yylval.string) - 1] = 0; return TOKEN_STRING_LITERAL; }
 {COMMA}   { return TOKEN_COMMA; }
 {SEMICOLON}   { return TOKEN_SEMI; }
 {COLON}   { return TOKEN_COLON; }

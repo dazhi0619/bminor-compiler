@@ -9,4 +9,6 @@ print "x:",x,"y:",y,"\n";
 if (x<0 && y>(a*b)) return;
 
 x=x+y*z/p;
+
+x = (a + b) * c;
 }

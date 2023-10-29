@@ -3,7 +3,7 @@
 
 struct decl* decl_create(char* name, struct type* type, struct expr* value,
                  struct stmt* code, struct symbol* symbol, struct decl* next) {
-  struct decl *d = malloc(sizeof(*d));
+  struct decl *d = (struct decl *) calloc(1, sizeof(*d));
   d->name = name;
   d->type = type;
   d->value = value;
@@ -81,7 +81,7 @@ struct expr* expr_create_string_literal(const char* str) {
 
 struct type* type_create(type_t kind, struct type *subtype,
                          struct param_list *params) {
-  struct type* t = (struct type *) malloc(sizeof(*t));
+  struct type* t = (struct type *) calloc(1, sizeof(*t));
   t->kind = kind;
   t->subtype = subtype;
   t->params = params;

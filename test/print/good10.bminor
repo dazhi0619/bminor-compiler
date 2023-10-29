@@ -34,11 +34,11 @@ printarray: function void ( a: array [] array [] integer, y: char, z: string ) =
     print;
   }
   {}
-  {
-  return;
   {{
   print;
+  {{
+  return;
   }}
-  }
+  }}
 }
 

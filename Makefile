@@ -26,7 +26,7 @@ ast_print.o: ast_print.c
 
 clean:
 	rm -rf *.o bminor
-	rm -rf test/*/*.out
+	rm -rf test/*/*.out*
 	rm parser.c scanner.c
 	rm include/token.h
 
