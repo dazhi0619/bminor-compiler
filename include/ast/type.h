@@ -19,7 +19,7 @@ struct type {
 	type_t kind;
 	struct param_list *params;
 	struct type *subtype;
-  int arr_len;
+  struct expr* arr_len;
 };
 
 struct type * type_create( type_t kind, struct type *subtype, struct param_list *params );

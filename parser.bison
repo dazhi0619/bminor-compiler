@@ -140,7 +140,7 @@ simpletype : TOKEN_INT  { $$ = type_create(TYPE_INTEGER, NULL, NULL); }
      | TOKEN_VOID       { $$ = type_create(TYPE_VOID, NULL, NULL); }
      ;
 
-arrtype   : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_INT_LITERAL TOKEN_RBRACKET type  { $$ = type_create(TYPE_ARRAY, $5, NULL); $$->arr_len = $3; };
+arrtype   : TOKEN_ARRAY TOKEN_LBRACKET optexpr TOKEN_RBRACKET type  { $$ = type_create(TYPE_ARRAY, $5, NULL); $$->arr_len = $3; };
 
 functype  : type TOKEN_LPAREN paramlist TOKEN_RPAREN       { $$ = type_create(TYPE_FUNCTION, $1, $3); };
 

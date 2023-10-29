@@ -1,4 +1,4 @@
 *.o
-test/*/*.out
+test/*/*.out*
 bminor
 *.output

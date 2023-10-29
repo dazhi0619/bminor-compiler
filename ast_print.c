@@ -615,6 +615,8 @@ void expr_print(struct expr *e) {
     }
   }
   switch (e->kind) {
+    case EXPR_CALL:
+    printf(")"); break;
     case EXPR_SUBSCRIPT:
     printf("]"); break;
     case EXPR_NAME:
@@ -714,7 +716,9 @@ void type_print(struct type* t) {
     case TYPE_STRING:
     printf("string"); break;
     case TYPE_ARRAY:
-    printf("array [%d] ", t->arr_len);
+    printf("array [");
+    expr_print(t->arr_len);
+    printf("] ");
     type_print(t->subtype);
     break;
     case TYPE_FUNCTION:
@@ -723,10 +727,6 @@ void type_print(struct type* t) {
     printf("(");
     param_list_print(t->params);
     printf(")");
-    break;
-    case TYPE_FUNCTION_ARRAY_PARAM:
-    printf("array [] ");
-    type_print(t->subtype);
     break;
   }
 }
