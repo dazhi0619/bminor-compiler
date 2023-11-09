@@ -34,6 +34,34 @@
       "-g",
       "-c",
       "-o",
+      "hash_table.o",
+      "hash_table.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/hash_table.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/hash_table.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
+      "symbol.o",
+      "symbol.c"
+    ],
+    "directory": "/Users/dazhi/Documents/dfeng3-compiler",
+    "file": "/Users/dazhi/Documents/dfeng3-compiler/symbol.c",
+    "output": "/Users/dazhi/Documents/dfeng3-compiler/symbol.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-std=gnu1x",
+      "-g",
+      "-c",
+      "-o",
       "parser.o",
       "parser.c"
     ],
