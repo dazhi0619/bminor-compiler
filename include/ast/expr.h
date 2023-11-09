@@ -1,7 +1,8 @@
 #ifndef EXPR_H
 #define EXPR_H
 
-#include "symbol.h"
+struct expr;
+struct symbol;
 
 typedef enum {
   EXPR_ADD,

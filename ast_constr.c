@@ -3,13 +3,11 @@
 #include "include/ast.h"
 
 struct decl *decl_create(char *name, struct type *type, struct expr *value,
-                         struct stmt *code, struct symbol *symbol,
-                         struct decl *next) {
+                         struct stmt *code, struct decl *next) {
   struct decl *d = (struct decl *)calloc(1, sizeof(*d));
   d->name = name;
   d->type = type;
   d->value = value;
-  d->symbol = symbol;
   d->code = code;
   d->next = next;
   return d;
@@ -88,14 +86,6 @@ struct type *type_create(type_t kind, struct type *subtype,
   t->subtype = subtype;
   t->params = params;
   return t;
-}
-
-struct symbol *symbol_create(symbol_t kind, struct type *type, char *name) {
-  struct symbol *s = (struct symbol *)calloc(1, sizeof(*s));
-  s->kind = kind;
-  s->type = type;
-  s->name = name;
-  return s;
 }
 
 struct param_list *param_list_create(char *name, struct type *type,

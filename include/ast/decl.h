@@ -3,9 +3,11 @@
 
 #include <stdio.h>
 
-#include "expr.h"
-#include "stmt.h"
-#include "type.h"
+struct type;
+struct expr;
+struct stmt;
+struct symbol;
+struct decl;
 
 struct decl {
   char *name;
@@ -17,8 +19,7 @@ struct decl {
 };
 
 struct decl *decl_create(char *name, struct type *type, struct expr *value,
-                         struct stmt *code, struct symbol *symbol,
-                         struct decl *next);
+                         struct stmt *code, struct decl *next);
 void decl_print(struct decl *d, int indent);
 
 #endif

@@ -2,7 +2,8 @@
 #ifndef STMT_H
 #define STMT_H
 
-#include "decl.h"
+struct decl;
+struct expr;
 
 typedef enum {
   STMT_DECL,

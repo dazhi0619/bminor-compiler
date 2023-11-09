@@ -1,0 +1,12 @@
+x: integer = 3;
+z: integer = 1;
+
+main: function void () = {
+  x: integer = 1;
+  y: float = 1.0;
+  {
+    x: integer = 0;
+    x = z;
+    y = 0.0;
+  }
+}

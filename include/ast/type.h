@@ -1,7 +1,8 @@
 #ifndef TYPE_H
 #define TYPE_H
 
-#include "param_list.h"
+struct param_list;
+struct expr;
 
 typedef enum {
   TYPE_VOID,

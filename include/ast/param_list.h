@@ -4,9 +4,8 @@
 
 #include <stdio.h>
 
-#include "type.h"
-
-struct expr;
+struct type;
+struct symbol;
 
 struct param_list {
   char *name;

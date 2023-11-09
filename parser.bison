@@ -106,8 +106,8 @@ program : decl program      { $1->next = $2; root = $1; }
         |                   { $$ = NULL; root = NULL; }
         ;
 
-decl : TOKEN_IDENT TOKEN_COLON type optinit   { $$ = decl_create($1, $3, $4, NULL, NULL, NULL); }
-     | TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION functype optfuncinit  { $$ = decl_create($1, $4, NULL, $5, NULL, NULL); }
+decl : TOKEN_IDENT TOKEN_COLON type optinit   { $$ = decl_create($1, $3, $4, NULL, NULL); }
+     | TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION functype optfuncinit  { $$ = decl_create($1, $4, NULL, $5, NULL); }
      ;
 
 optinit : TOKEN_ASSIGN expr TOKEN_SEMI        { $$ = $2; }
@@ -156,7 +156,7 @@ paramtype : simpletype  { $$ = $1; }
           | arrparam    { $$ = $1; }
           ;
 
-arrparam  : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET paramtype    { $$ = type_create(TYPE_FUNCTION_ARRAY_PARAM, $4, NULL); };
+arrparam  : TOKEN_ARRAY TOKEN_LBRACKET TOKEN_RBRACKET paramtype    { $$ = type_create(TYPE_ARRAY, $4, NULL); };
 
 optparam  : TOKEN_COMMA TOKEN_IDENT TOKEN_COLON paramtype optparam  { $$ = param_list_create($2, $4, $5); }
           |  { $$ = NULL; }
@@ -277,5 +277,14 @@ int yyprintmain(FILE* file) {
     yyerror("empty root node");
   }
   decl_print(root, 0);
+  return 0;
+}
+int yyresolvemain(FILE* file) {
+  yyin = file;
+  yyparse();
+  if (!root) {
+    yyerror("empty root node");
+  }
+  decl_resolve(root);
   return 0;
 }
