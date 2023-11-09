@@ -286,5 +286,5 @@ int yyresolvemain(FILE* file) {
     yyerror("empty root node");
   }
   decl_resolve(root);
-  return 0;
+  return RESOLVE_ERRORNEOUS;
 }

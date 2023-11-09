@@ -11,6 +11,8 @@ const int STACK_SIZE = 128;
 const char* LOCAL_WHICH = "0";
 const char* PARAM_WHICH = "1";
 
+int RESOLVE_ERRORNEOUS = 0;
+
 struct symbol *symbol_create(symbol_t kind, struct type *type, char *name) {
   struct symbol* s = (struct symbol*) malloc(sizeof(*s));
   s->kind = kind;
@@ -58,6 +60,7 @@ void scope_bind(const char* name, struct symbol* sym) {
   // printf("scope_binding %s\n", name);
   if (scope_lookup_current(name) && (sym->type->kind != TYPE_FUNCTION || (sym->type->kind == TYPE_FUNCTION && sym->defined))) {
     printf("error: %s has already been defined in this scope.\n", name);
+    RESOLVE_ERRORNEOUS = 1;
     return;
   }
   hash_table_insert(*(stack_top-1), name, sym);
@@ -130,6 +133,7 @@ void expr_resolve(struct expr* e) {
     e->symbol = scope_lookup(e->name);
     if (!e->symbol) {
       printf("resolve error: %s is not defined\n", e->name);
+      RESOLVE_ERRORNEOUS = 1;
     } else {
       printf("%s resolves to ", e->name);
       switch (e->symbol->kind) {
