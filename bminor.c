@@ -12,11 +12,12 @@ int LINE_MAX =
 int main(int argc, char *argv[]) {
   int argument;
   int option_index;
-  static struct option long_options[] = {{"encode", required_argument, NULL, 0},
-                                         {"scan", required_argument, NULL, 0},
-                                         {"parse", required_argument, NULL, 0},
-                                         {"print", required_argument, NULL, 0},
-                                         {"resolve", required_argument, NULL, 0}};
+  static struct option long_options[] = {
+      {"encode", required_argument, NULL, 0},
+      {"scan", required_argument, NULL, 0},
+      {"parse", required_argument, NULL, 0},
+      {"print", required_argument, NULL, 0},
+      {"resolve", required_argument, NULL, 0}};
   argument = getopt_long_only(argc, argv, "", long_options, &option_index);
 
   if (argument != 0) return 1;
