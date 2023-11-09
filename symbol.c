@@ -58,7 +58,8 @@ int scope_level() {
 
 void scope_bind(const char* name, struct symbol* sym) {
   // printf("scope_binding %s\n", name);
-  if (scope_lookup_current(name) && (sym->type->kind != TYPE_FUNCTION || (sym->type->kind == TYPE_FUNCTION && sym->defined))) {
+  struct symbol* already;
+  if ((already = scope_lookup_current(name)) && (sym->type->kind != TYPE_FUNCTION || (sym->type->kind == TYPE_FUNCTION && already->defined))) {
     printf("error: %s has already been defined in this scope.\n", name);
     RESOLVE_ERRORNEOUS = 1;
     return;
