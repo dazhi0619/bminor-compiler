@@ -37,7 +37,11 @@ void scope_enter() {
   }
   *stack_top = hash_table_create(0, 0);
   int* local_which = (int*)malloc(sizeof(int));
-  *local_which = 0;
+  if (stack_top != stack_base) {
+    *local_which = *(int*) hash_table_lookup(*(stack_top - 1), LOCAL_WHICH);
+  } else {
+    *local_which = 0;
+  }
   hash_table_insert(*stack_top, LOCAL_WHICH, local_which);
   int* param_which = (int*)malloc(sizeof(int));
   *param_which = 0;
@@ -60,7 +64,7 @@ void scope_bind(const char* name, struct symbol* sym) {
   // printf("scope_binding %s\n", name);
   struct symbol* already;
   if ((already = scope_lookup_current(name)) &&
-      (sym->type->kind != TYPE_FUNCTION ||
+      (sym->type->kind != TYPE_FUNCTION || already->type->kind != TYPE_FUNCTION ||
        (sym->type->kind == TYPE_FUNCTION && already->defined))) {
     printf("error: %s has already been defined in this scope.\n", name);
     RESOLVE_ERRORNEOUS = 1;

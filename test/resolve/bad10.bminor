@@ -1,3 +1,4 @@
+main: integer = 0;
 main: function void() = {
-  not_found(x);
+  return;
 }
