@@ -17,7 +17,9 @@ int main(int argc, char *argv[]) {
       {"scan", required_argument, NULL, 0},
       {"parse", required_argument, NULL, 0},
       {"print", required_argument, NULL, 0},
-      {"resolve", required_argument, NULL, 0}};
+      {"resolve", required_argument, NULL, 0},
+      {"typecheck", required_argument, NULL, 0}
+  };
   argument = getopt_long_only(argc, argv, "", long_options, &option_index);
 
   if (argument != 0) return 1;
@@ -60,6 +62,9 @@ int main(int argc, char *argv[]) {
 
     case 4:
       return yyresolvemain(file);
+
+    case 5:
+      return yytypecheckmain(file);
 
     default:
       printf("Illegal option!\n");

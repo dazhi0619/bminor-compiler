@@ -1,11 +1,13 @@
 #!/bin/sh
 
-for testfile in test/resolve/good*.bminor
+for testfile in test/typecheck/good*.bminor
 do
-  ./bminor --resolve $testfile > $testfile.out1
+  ./bminor --typecheck $testfile > $testfile.out
 done
 
-for testfile in test/resolve/good*.bminor
+for testfile in test/typecheck/bad*.bminor
 do
-  ./bminor --resolve $testfile > $testfile.out2
+  ./bminor --typecheck $testfile > $testfile.out
 done
+
+exit 0

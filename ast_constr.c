@@ -85,6 +85,7 @@ struct type *type_create(type_t kind, struct type *subtype,
   t->kind = kind;
   t->subtype = subtype;
   t->params = params;
+  t->arr_len = NULL;
   return t;
 }
 

@@ -288,3 +288,13 @@ int yyresolvemain(FILE* file) {
   decl_resolve(root);
   return RESOLVE_ERRORNEOUS;
 }
+int yytypecheckmain(FILE* file) {
+  yyin = file;
+  yyparse();
+  if (!root) {
+    yyerror("empty root node");
+  }
+  decl_resolve(root);
+  decl_typecheck(root);
+  return TYPECHECK_ERRORNEOUS;
+}

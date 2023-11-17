@@ -1,5 +1,5 @@
 options=-std=gnu1x -g
-objects=bminor.o encoder.o parser.o scanner.o ast_constr.o ast_print.o symbol.o hash_table.o
+objects=bminor.o encoder.o parser.o scanner.o ast_constr.o ast_print.o symbol.o hash_table.o typecheck.o
 
 bminor: $(objects)
 	gcc $(options) $(objects) -o bminor
@@ -14,7 +14,7 @@ scanner.o: scanner.flex
 	flex -o scanner.c scanner.flex
 	gcc $(options) -c scanner.c -o scanner.o
 
-parser.o: parser.bison symbol.o
+parser.o: parser.bison symbol.o typecheck.o
 	bison --defines=include/token.h --output=parser.c parser.bison
 	gcc $(options) -c parser.c -o parser.o
 
@@ -29,6 +29,9 @@ hash_table.o: hash_table.c
 
 symbol.o: symbol.c hash_table.o
 	gcc $(options) -c symbol.c -o symbol.o
+
+typecheck.o: typecheck.c
+	gcc $(options) -c typecheck.c -o typecheck.o
 
 clean:
 	rm -rf *.o bminor

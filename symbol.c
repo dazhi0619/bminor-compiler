@@ -66,11 +66,20 @@ void scope_bind(const char* name, struct symbol* sym) {
   if ((already = scope_lookup_current(name)) &&
       (sym->type->kind != TYPE_FUNCTION ||
        already->type->kind != TYPE_FUNCTION ||
-       (sym->type->kind == TYPE_FUNCTION && already->defined))) {
+       (already->defined))) {
     printf("error: %s has already been defined in this scope.\n", name);
     RESOLVE_ERRORNEOUS = 1;
     return;
   }
+  if(already && !type_equals(already->type, sym->type)){
+    printf("type error: Function %s was initially declared with type ", sym->name);
+    TYPECHECK_ERRORNEOUS++;
+    type_print(already->type);
+    printf(" but is later declared with type ");
+    type_print(sym->type);
+    printf(".\n\n");
+  }
+
   hash_table_insert(*(stack_top - 1), name, sym);
   if (sym->kind == SYMBOL_LOCAL) {
     int* local_which = (int*)hash_table_lookup(*(stack_top - 1), LOCAL_WHICH);
@@ -142,19 +151,19 @@ void expr_resolve(struct expr* e) {
       printf("resolve error: %s is not defined\n", e->name);
       RESOLVE_ERRORNEOUS = 1;
     } else {
-      printf("%s resolves to ", e->name);
-      switch (e->symbol->kind) {
-        case SYMBOL_PARAM:
-          printf("param %d", e->symbol->which);
-          break;
-        case SYMBOL_LOCAL:
-          printf("local %d", e->symbol->which);
-          break;
-        case SYMBOL_GLOBAL:
-          printf("global %s", e->symbol->name);
-          break;
-      }
-      printf("\n");
+      // printf("%s resolves to ", e->name);
+      // switch (e->symbol->kind) {
+      //   case SYMBOL_PARAM:
+      //     printf("param %d", e->symbol->which);
+      //     break;
+      //   case SYMBOL_LOCAL:
+      //     printf("local %d", e->symbol->which);
+      //     break;
+      //   case SYMBOL_GLOBAL:
+      //     printf("global %s", e->symbol->name);
+      //     break;
+      // }
+      // printf("\n");
     }
   } else {
     expr_resolve(e->left);
