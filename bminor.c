@@ -18,8 +18,7 @@ int main(int argc, char *argv[]) {
       {"parse", required_argument, NULL, 0},
       {"print", required_argument, NULL, 0},
       {"resolve", required_argument, NULL, 0},
-      {"typecheck", required_argument, NULL, 0}
-  };
+      {"typecheck", required_argument, NULL, 0}};
   argument = getopt_long_only(argc, argv, "", long_options, &option_index);
 
   if (argument != 0) return 1;

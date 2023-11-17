@@ -65,14 +65,14 @@ void scope_bind(const char* name, struct symbol* sym) {
   struct symbol* already;
   if ((already = scope_lookup_current(name)) &&
       (sym->type->kind != TYPE_FUNCTION ||
-       already->type->kind != TYPE_FUNCTION ||
-       (already->defined))) {
+       already->type->kind != TYPE_FUNCTION || (already->defined))) {
     printf("error: %s has already been defined in this scope.\n", name);
     RESOLVE_ERRORNEOUS = 1;
     return;
   }
-  if(already && !type_equals(already->type, sym->type)){
-    printf("type error: Function %s was initially declared with type ", sym->name);
+  if (already && !type_equals(already->type, sym->type)) {
+    printf("type error: Function %s was initially declared with type ",
+           sym->name);
     TYPECHECK_ERRORNEOUS++;
     type_print(already->type);
     printf(" but is later declared with type ");
