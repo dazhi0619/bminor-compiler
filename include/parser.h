@@ -9,4 +9,4 @@ int yyprintmain(FILE* file);
 int yyresolvemain(FILE* file);
 int yytypecheckmain(FILE* file);
 int yycodegenmain(FILE* filein, FILE* fileout);
-#endif // !PARSER_H
+#endif  // !PARSER_H

@@ -4,4 +4,4 @@
 #include <stdio.h>
 #define SCAN_ERROR -1
 int yyscanmain(FILE *file);
-#endif // !SCANNER_H
+#endif  // !SCANNER_H

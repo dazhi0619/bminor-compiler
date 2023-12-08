@@ -9,4 +9,4 @@
 #include "ast/type.h"
 
 extern int TYPECHECK_ERRORNEOUS;
-#endif // !AST_H
+#endif  // !AST_H

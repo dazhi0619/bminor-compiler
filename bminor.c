@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
       return 1;
     }
   } else {
-   file = fopen(optarg, "r");
+    file = fopen(optarg, "r");
     if (!file) {
       printf("ERROR: File invalid.\n");
       return 1;

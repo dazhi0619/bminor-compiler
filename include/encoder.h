@@ -10,4 +10,4 @@ extern int ENCODER_SUCCESS;
 int string_decode(const char *es, char *s);
 int string_encode(const char *es, char *s);
 int char_decode(const char *es, char *s);
-#endif // !ENCODER_H
+#endif  // !ENCODER_H
