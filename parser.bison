@@ -2,6 +2,7 @@
 #include "include/token.h"
 #include "include/parser.h"
 #include "include/ast.h"
+#include "include/codegen.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -297,4 +298,15 @@ int yytypecheckmain(FILE* file) {
   decl_resolve(root);
   decl_typecheck(root);
   return TYPECHECK_ERRORNEOUS;
+}
+int yycodegenmain(FILE* filein, FILE* fileout) {
+  yyin = filein;
+  yyparse();
+  if (!root) {
+    yyerror("empty root node");
+  }
+  decl_resolve(root);
+  decl_typecheck(root);
+  decl_codegen(fileout, root);
+  return 0;
 }

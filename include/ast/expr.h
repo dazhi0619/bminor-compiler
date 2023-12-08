@@ -49,6 +49,9 @@ struct expr {
   float float_literal;
   const char *string_literal;
   struct symbol *symbol;
+
+  int string_label;
+  int reg;
 };
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right);

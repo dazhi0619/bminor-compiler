@@ -34,6 +34,8 @@ struct expr *expr_create(expr_t kind, struct expr *L, struct expr *R) {
   e->kind = kind;
   e->left = L;
   e->right = R;
+  e->reg = -1;
+  e->string_label = -1;
   return e;
 }
 

@@ -10,7 +10,7 @@
 /* Types */
 INTEGER_LITERAL [0-9]+
 FLOAT_LITERAL ([0-9]*\.[0-9]+|[0-9]+(\.[0-9]+)?e[+-]?[0-9]+)
-CHAR_LITERAL  \'([^\\\']|\\[abefnrtv\'\"]|\\0x[0-9A-F][0-9A-F])\'
+CHAR_LITERAL  \'([^\\\']|\\[abefnrtv\'\"\\]|\\0x[0-9A-F][0-9A-F])\'
 STRING_LITERAL  \"([^\\\"]|\\.)*\"
 
 /* Symbols */

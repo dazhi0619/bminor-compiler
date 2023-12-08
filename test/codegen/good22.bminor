@@ -1,0 +1,18 @@
+x: integer = -1;
+y: integer = -2;
+add: function integer (x: integer, y: integer) = {
+  return x + y;
+}
+stringify: function string () = {
+  return "add(x, y) = ";
+}
+always_true: function boolean () = {
+  if (true) return true;
+}
+main: function void () = {
+  print "x = ", x, ", y = ", y, "\n";
+  z: integer = add(x, y);
+  if (always_true()) {
+    print stringify(), z, "\n";
+  }
+}

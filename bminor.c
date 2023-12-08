@@ -18,15 +18,24 @@ int main(int argc, char *argv[]) {
       {"parse", required_argument, NULL, 0},
       {"print", required_argument, NULL, 0},
       {"resolve", required_argument, NULL, 0},
-      {"typecheck", required_argument, NULL, 0}};
+      {"typecheck", required_argument, NULL, 0},
+      {"codegen", required_argument, NULL, 1}};
   argument = getopt_long_only(argc, argv, "", long_options, &option_index);
 
-  if (argument != 0) return 1;
-
-  FILE *file = fopen(optarg, "r");
-  if (!file) {
-    printf("ERROR: file invalid.\n");
-    return 1;
+  FILE *file = NULL, *out = NULL;
+  if (argument) {
+    file = fopen(argv[2], "r");
+    out = fopen(argv[3], "w");
+    if (!file || !out) {
+      printf("ERROR: Input or output file invalid.\n");
+      return 1;
+    }
+  } else {
+   file = fopen(optarg, "r");
+    if (!file) {
+      printf("ERROR: File invalid.\n");
+      return 1;
+    }
   }
 
   // Used for encoding and decoding
@@ -34,6 +43,7 @@ int main(int argc, char *argv[]) {
   char decoded[LINE_MAX];
   char encoded[LINE_MAX];
 
+  int ret = 0;
   switch (option_index) {
     case 0:
       if (!fgets(input, sizeof input, file)) {
@@ -64,6 +74,11 @@ int main(int argc, char *argv[]) {
 
     case 5:
       return yytypecheckmain(file);
+
+    case 6:
+      ret = yycodegenmain(file, out);
+      fclose(out);
+      return ret;
 
     default:
       printf("Illegal option!\n");

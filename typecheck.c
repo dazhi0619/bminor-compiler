@@ -393,6 +393,9 @@ struct type *expr_typecheck(struct expr *e) {
     case EXPR_STRING_LITERAL:
       result = type_create(TYPE_STRING, NULL, NULL);
       break;
+    case EXPR_FLOAT_LITERAL:
+      result = type_create(TYPE_FLOAT, NULL, NULL);
+      break;
     case EXPR_LIST:
       if (!e->right->left) {
         printf("type error: empty array\n");
@@ -571,6 +574,7 @@ void stmt_typecheck(struct stmt *s) {
       }
       break;
     case STMT_RETURN:
+      if (!s->expr) break;
       t = expr_typecheck(s->expr);
       if (t->kind != return_type) {
         printf("type error: Current function scope has return type ");
@@ -583,7 +587,7 @@ void stmt_typecheck(struct stmt *s) {
         printf(".\n");
       }
       type_delete(t);
-      if (s->expr->left && s->expr->right && s->expr->right->left) {
+      if (s->expr->kind == EXPR_LIST) {
         printf("type error: function cannot return multiple expressions\n");
         TYPECHECK_ERRORNEOUS++;
       }

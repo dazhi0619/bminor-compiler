@@ -1,0 +1,90 @@
+// tests comparisions/if statements
+x:integer = 5;
+main: function integer () =
+{
+	y:integer = 10;
+	z:integer = 5;
+	if(x >= z)
+		print "1 should be printed\n";
+	else
+	{
+		print "1 shouldn't be printed\n";
+	}
+
+	if(y > x )
+	{
+		print "2 should be printed\n";
+	}
+	else
+	{
+		print "2 shouldn't be printed\n";
+	}
+	if(z == x )
+	{
+		print "3 should be printed\n";
+	}
+	else
+		print "3 shouldn't be printed\n";
+	
+	if(x <= y )
+	{
+		print "4 should be printed\n";
+	}
+	else
+	{
+		print "4 shouldn't be printed\n";
+	}
+	if(x != y )
+	{
+		print "5 should be printed\n";
+	}
+	else
+	{
+		print "5 shouldn't be printed\n";
+	}
+
+
+	//switched now (statement should be false)
+	if(z < x )
+	{
+		print "6 shouldn't be printed\n";
+	}
+	else
+	{
+		print "6 should be printed\n";
+	}
+
+	if(y < x )
+	{
+		print "7 shouldn't be printed\n";
+	}
+	else
+	{
+		print "7 should be printed\n";
+	}
+	if(z != x )
+	{
+		print "8 shouldn't be printed\n";
+	}
+	else
+	{
+		print "8 should be printed\n";
+	}
+	
+	if(y <= x )
+	{
+		print "9 shouldn't be printed\n";
+	}
+	else
+	{
+		print "9 should be printed\n";
+	}
+	if(y == x )
+	{
+		print "0 shouldn't be printed\n";
+	}
+	else
+	{
+		print "0 should be printed\n";
+	}
+}

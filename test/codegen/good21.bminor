@@ -1,0 +1,13 @@
+x: integer = 100;
+y: integer = -1;
+main: function integer () = {
+  x: integer = x + y;
+  print "x = ", x, ", y = ", y, "\n";
+  z: char = 'c';
+  print "z = \'", z, "\'\n";
+  print "1+2+3 = ", 1+2+3, "\n";
+  print "1*2*3*4 = ", 1*2*3*4, "\n";
+  print "true && true = ", true && true, ", true && false = ", true && false, "\n";
+  print "true || true = ", true || true, ", true || false = ", true || false, "\n";
+  return y;
+}

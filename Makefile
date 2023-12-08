@@ -1,5 +1,5 @@
 options=-std=gnu1x -g
-objects=bminor.o encoder.o parser.o scanner.o ast_constr.o ast_print.o symbol.o hash_table.o typecheck.o
+objects=bminor.o encoder.o parser.o scanner.o ast_constr.o ast_print.o symbol.o hash_table.o typecheck.o codegen.o
 
 bminor: $(objects)
 	gcc $(options) $(objects) -o bminor
@@ -32,6 +32,9 @@ symbol.o: symbol.c hash_table.o
 
 typecheck.o: typecheck.c
 	gcc $(options) -c typecheck.c -o typecheck.o
+
+codegen.o: codegen.c
+	gcc $(options) -c codegen.c -o codegen.o
 
 clean:
 	rm -rf *.o bminor
