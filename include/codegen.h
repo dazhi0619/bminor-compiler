@@ -6,6 +6,7 @@
 #include "ast.h"
 
 #define SCRACH_REGISTER_NUMBER 7
+#define XMM_NUMBER 9
 
 typedef struct _register_entry {
   char *name;
@@ -13,6 +14,7 @@ typedef struct _register_entry {
 } register_entry;
 
 extern register_entry register_table[SCRACH_REGISTER_NUMBER];
+extern register_entry xmm_table[XMM_NUMBER];
 extern int codegen_result;
 extern int label_count;
 extern int arg_count;
@@ -21,6 +23,9 @@ int scratch_alloc();
 void scratch_free(int r);
 const char *scratch_name(int r);
 void purge_scratch();
+int xmm_alloc();
+void xmm_free(int r);
+const char *xmm_name(int r);
 int label_create();
 const char *label_name(int label);
 const char *string_label_name(int label);

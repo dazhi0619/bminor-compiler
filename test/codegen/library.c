@@ -56,3 +56,7 @@ int integer_power( int x, int y )
 	return result;
 }
 
+void print_float( float f)
+{
+  printf("%f",f);
+}

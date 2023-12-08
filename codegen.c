@@ -8,9 +8,12 @@
 #include "include/ast/symbol.h"
 #include "include/ast/type.h"
 
-register_entry register_table[7] = {
+register_entry register_table[SCRACH_REGISTER_NUMBER] = {
     {"%rbx", false}, {"%r10", false}, {"%r11", false}, {"%r12", false},
     {"%r13", false}, {"%r14", false}, {"%r15", false},
+};
+register_entry xmm_table[XMM_NUMBER] = {
+  {"%xmm0", false}, {"%xmm1", false}, {"%xmm2", false}, {"%xmm3", false}, {"%xmm4", false}, {"%xmm5", false}, {"%xmm6", false}, {"%xmm7", false}, {"%xmm8", false}
 };
 const char *arg_name_table[6] = {"%rdi", "%rsi", "%rdx", "%rcx", "%r8", "%r9"};
 int label_count = 0;
@@ -54,6 +57,35 @@ void purge_scratch() {
   }
 }
 
+int xmm_alloc() {
+  for (int i = 0; i < XMM_NUMBER; i++) {
+    if (!xmm_table[i].inuse) {
+      xmm_table[i].inuse = true;
+      return i;
+    }
+  }
+  printf("Error: Out of scratch registers.\n");
+  exit(1);
+}
+void xmm_free(int r) {
+  if (r < 0 || r >= XMM_NUMBER) {
+    printf(
+        "Error: failed freeing scratch register %d: Invalid register number\n",
+        r);
+    exit(1);
+  }
+  xmm_table[r].inuse = false;
+}
+const char *xmm_name(int r) {
+  if (r < 0 || r >= XMM_NUMBER) {
+    printf(
+        "Error: failed retrieving the name of register %d: Invalid register "
+        "number\n",
+        r);
+    exit(1);
+  }
+  return xmm_table[r].name;
+}
 int label_create() { return label_count++; }
 
 const char *label_name(int label) {
@@ -114,26 +146,47 @@ void expr_codegen(FILE *fp, struct expr *e) {
               scratch_name(e->reg));
       break;
     case EXPR_ASSIGN:
-      fprintf(fp, "MOVQ %s, %s\n", scratch_name(e->right->reg),
-              scratch_name(e->left->reg));
-      if (e->left->kind == EXPR_NAME) {
-        fprintf(fp, "MOVQ %s, %s\n", scratch_name(e->left->reg),
-                symbol_codegen(e->left->symbol));
+      if (e->left->symbol->kind == TYPE_FLOAT) {
+        fprintf(fp, "MOVSD %s, %s\n", xmm_name(e->right->reg), xmm_name(e->left->reg));
+        if (e->left->kind == EXPR_NAME) {
+          fprintf(fp, "MOVSD %s, %s\n", xmm_name(e->left->reg), symbol_codegen(e->left->symbol));
+        }
+        e->reg = e->left->reg;
+        xmm_free(e->right->reg);
+      } else {
+        fprintf(fp, "MOVQ %s, %s\n", scratch_name(e->right->reg),
+                scratch_name(e->left->reg));
+        if (e->left->kind == EXPR_NAME) {
+          fprintf(fp, "MOVQ %s, %s\n", scratch_name(e->left->reg),
+                  symbol_codegen(e->left->symbol));
+        }
+        e->reg = e->left->reg;
+        scratch_free(e->right->reg);
       }
-      e->reg = e->left->reg;
-      scratch_free(e->right->reg);
       break;
     case EXPR_ADD:
-      fprintf(fp, "ADDQ %s, %s\n", scratch_name(e->left->reg),
-              scratch_name(e->right->reg));
-      e->reg = e->right->reg;
-      scratch_free(e->left->reg);
+      if (e->left->symbol->kind == TYPE_FLOAT) {
+        fprintf(fp, "ADDSD %s, %s\n", xmm_name(e->left->reg), xmm_name(e->right->reg));
+        e->reg = e->right->reg;
+        xmm_free(e->left->reg);
+      } else {
+        fprintf(fp, "ADDQ %s, %s\n", scratch_name(e->left->reg),
+                scratch_name(e->right->reg));
+        e->reg = e->right->reg;
+        scratch_free(e->left->reg);
+      }
       break;
     case EXPR_SUB:
-      fprintf(fp, "SUBQ %s, %s\n", scratch_name(e->right->reg),
-              scratch_name(e->left->reg));
-      e->reg = e->left->reg;
-      scratch_free(e->right->reg);
+      if (e->left->symbol->kind == TYPE_FLOAT) {
+        fprintf(fp, "SUBSD %s, %s\n", xmm_name(e->right->reg), xmm_name(e->left->reg));
+        e->reg = e->left->reg;
+        xmm_free(e->right->reg);
+      } else {
+        fprintf(fp, "SUBQ %s, %s\n", scratch_name(e->right->reg),
+                scratch_name(e->left->reg));
+        e->reg = e->left->reg;
+        scratch_free(e->right->reg);
+      }
       break;
     case EXPR_MUL:
       fprintf(fp, "MOVQ %s, %%rax\n", scratch_name(e->left->reg));
@@ -331,8 +384,11 @@ void expr_codegen(FILE *fp, struct expr *e) {
       fprintf(fp, ".text\n");
       break;
     case EXPR_FLOAT_LITERAL:
-      printf("Error: Floating point number not implemented\n");
-      exit(1);
+      fprintf(fp, ".data\n");
+      e->string_label = label_create();
+      fprintf(fp, "%s:  .double \"%f\"\n", string_label_name(e->string_label),
+              e->float_literal);
+      fprintf(fp, ".text\n");
       break;
     case EXPR_CALL:
       fprintf(fp, "PUSHQ %%r10\n");
@@ -511,10 +567,6 @@ void param_list_codegen(FILE *fp, struct param_list *p) {
 
 void decl_codegen(FILE *fp, struct decl *d) {
   if (!d) return;
-  if (d->type->kind == TYPE_FLOAT) {
-    printf("Error: Floating point number not supported\n");
-    exit(1);
-  }
   switch (d->symbol->kind) {
     case SYMBOL_GLOBAL:
       fprintf(fp, ".globl %s\n", d->name);
@@ -569,6 +621,8 @@ void decl_codegen(FILE *fp, struct decl *d) {
         } else if (d->value->kind == EXPR_POS) {
           fprintf(fp, "%s: .quad %d\n", d->name,
                   d->value->right->literal_value);
+        } else if (d->value->kind == EXPR_FLOAT_LITERAL) {
+          fprintf(fp, "%s: .double %f\n", d->name, d->value->float_literal);
         } else {
           fprintf(fp, "%s: .quad %d\n", d->name, d->value->literal_value);
         }
@@ -585,6 +639,12 @@ void decl_codegen(FILE *fp, struct decl *d) {
       } else if (d->type->kind == TYPE_ARRAY) {
         printf("Error: Array not implemented\n");
         exit(1);
+      } else if (d->type->kind == TYPE_FLOAT) {
+        if (d->value) {
+          expr_codegen(fp, d->value);
+          fprintf(fp, "MOVSD %s, %s\n", xmm_name(d->value->reg), symbol_codegen(d->symbol));
+          scratch_free(d->value->reg);
+        }
       } else {
         if (d->value) {
           expr_codegen(fp, d->value);

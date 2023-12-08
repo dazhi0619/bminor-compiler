@@ -1,0 +1,2 @@
+f: float = 0.01;
+main: function void () = {}

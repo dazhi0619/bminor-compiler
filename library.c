@@ -43,3 +43,8 @@ long integer_power(long x, long y) {
   }
   return result;
 }
+
+void print_float( float f)
+{
+  printf("%f",f);
+}
