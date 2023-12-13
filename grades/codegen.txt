@@ -1,0 +1,4428 @@
+=====STUDENT TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+main:function integer ()=
+{
+	return 10;
+}
+
+===[good1.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $10, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good10.bminor Input]===
+// tests print statements 
+x:integer=10;
+main:function integer () =
+{
+	print x;	
+	
+}
+
+===[good10.bminor Output]===
+.globl x
+.data
+x: .quad 10
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ x, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+10
+
+return code: 2
+
+
+===[good101.bminor Input]===
+f: float = 0.01;
+main: function void () = {}
+
+===[good101.bminor Output]===
+TEST NOT PASSED
+
+Error: Floating point number not supported
+
+
+return code: 1
+
+
+===[good11.bminor Input]===
+// tests character printing
+i:char= 'i';
+main:function integer () =
+{
+	n:char ='n';
+	print 'h', i,' ', n, 'd'; 
+}
+
+===[good11.bminor Output]===
+.globl i
+.data
+i: .quad 105
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $110, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $104, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ i, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ $32, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ $100, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+hi nd
+
+return code: 100
+
+
+===[good12.bminor Input]===
+// tests comparisions/if statements
+x:integer = 5;
+main: function integer () =
+{
+	y:integer = 10;
+	z:integer = 5;
+	if(x >= z)
+		print "1 should be printed\n";
+	else
+	{
+		print "1 shouldn't be printed\n";
+	}
+
+	if(y > x )
+	{
+		print "2 should be printed\n";
+	}
+	else
+	{
+		print "2 shouldn't be printed\n";
+	}
+	if(z == x )
+	{
+		print "3 should be printed\n";
+	}
+	else
+		print "3 shouldn't be printed\n";
+	
+	if(x <= y )
+	{
+		print "4 should be printed\n";
+	}
+	else
+	{
+		print "4 shouldn't be printed\n";
+	}
+	if(x != y )
+	{
+		print "5 should be printed\n";
+	}
+	else
+	{
+		print "5 shouldn't be printed\n";
+	}
+
+
+	//switched now (statement should be false)
+	if(z < x )
+	{
+		print "6 shouldn't be printed\n";
+	}
+	else
+	{
+		print "6 should be printed\n";
+	}
+
+	if(y < x )
+	{
+		print "7 shouldn't be printed\n";
+	}
+	else
+	{
+		print "7 should be printed\n";
+	}
+	if(z != x )
+	{
+		print "8 shouldn't be printed\n";
+	}
+	else
+	{
+		print "8 should be printed\n";
+	}
+	
+	if(y <= x )
+	{
+		print "9 shouldn't be printed\n";
+	}
+	else
+	{
+		print "9 should be printed\n";
+	}
+	if(y == x )
+	{
+		print "0 shouldn't be printed\n";
+	}
+	else
+	{
+		print "0 should be printed\n";
+	}
+}
+
+===[good12.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $10, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $5, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ x, %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %r10, %rbx
+JGE .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L0
+.data
+globl_string4:  .string "1 should be printed\n"
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+JMP .L1
+.L0:
+.data
+globl_string5:  .string "1 shouldn't be printed\n"
+.text
+MOVQ $globl_string5, %rdi
+CALL print_string
+.L1:
+MOVQ -8(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %r10, %rbx
+JG .L8
+MOVQ $0, %r10
+JMP .L9
+.L8:
+MOVQ $1, %r10
+.L9:
+CMPQ $0, %r10
+JE .L6
+.data
+globl_string10:  .string "2 should be printed\n"
+.text
+MOVQ $globl_string10, %rdi
+CALL print_string
+JMP .L7
+.L6:
+.data
+globl_string11:  .string "2 shouldn't be printed\n"
+.text
+MOVQ $globl_string11, %rdi
+CALL print_string
+.L7:
+MOVQ -16(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %rbx, %r10
+JE .L14
+MOVQ $0, %r10
+JMP .L15
+.L14:
+MOVQ $1, %r10
+.L15:
+CMPQ $0, %r10
+JE .L12
+.data
+globl_string16:  .string "3 should be printed\n"
+.text
+MOVQ $globl_string16, %rdi
+CALL print_string
+JMP .L13
+.L12:
+.data
+globl_string17:  .string "3 shouldn't be printed\n"
+.text
+MOVQ $globl_string17, %rdi
+CALL print_string
+.L13:
+MOVQ x, %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %r10, %rbx
+JLE .L20
+MOVQ $0, %r10
+JMP .L21
+.L20:
+MOVQ $1, %r10
+.L21:
+CMPQ $0, %r10
+JE .L18
+.data
+globl_string22:  .string "4 should be printed\n"
+.text
+MOVQ $globl_string22, %rdi
+CALL print_string
+JMP .L19
+.L18:
+.data
+globl_string23:  .string "4 shouldn't be printed\n"
+.text
+MOVQ $globl_string23, %rdi
+CALL print_string
+.L19:
+MOVQ x, %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %rbx, %r10
+JNE .L26
+MOVQ $0, %r10
+JMP .L27
+.L26:
+MOVQ $1, %r10
+.L27:
+CMPQ $0, %r10
+JE .L24
+.data
+globl_string28:  .string "5 should be printed\n"
+.text
+MOVQ $globl_string28, %rdi
+CALL print_string
+JMP .L25
+.L24:
+.data
+globl_string29:  .string "5 shouldn't be printed\n"
+.text
+MOVQ $globl_string29, %rdi
+CALL print_string
+.L25:
+MOVQ -16(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %r10, %rbx
+JL .L32
+MOVQ $0, %r10
+JMP .L33
+.L32:
+MOVQ $1, %r10
+.L33:
+CMPQ $0, %r10
+JE .L30
+.data
+globl_string34:  .string "6 shouldn't be printed\n"
+.text
+MOVQ $globl_string34, %rdi
+CALL print_string
+JMP .L31
+.L30:
+.data
+globl_string35:  .string "6 should be printed\n"
+.text
+MOVQ $globl_string35, %rdi
+CALL print_string
+.L31:
+MOVQ -8(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %r10, %rbx
+JL .L38
+MOVQ $0, %r10
+JMP .L39
+.L38:
+MOVQ $1, %r10
+.L39:
+CMPQ $0, %r10
+JE .L36
+.data
+globl_string40:  .string "7 shouldn't be printed\n"
+.text
+MOVQ $globl_string40, %rdi
+CALL print_string
+JMP .L37
+.L36:
+.data
+globl_string41:  .string "7 should be printed\n"
+.text
+MOVQ $globl_string41, %rdi
+CALL print_string
+.L37:
+MOVQ -16(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %rbx, %r10
+JNE .L44
+MOVQ $0, %r10
+JMP .L45
+.L44:
+MOVQ $1, %r10
+.L45:
+CMPQ $0, %r10
+JE .L42
+.data
+globl_string46:  .string "8 shouldn't be printed\n"
+.text
+MOVQ $globl_string46, %rdi
+CALL print_string
+JMP .L43
+.L42:
+.data
+globl_string47:  .string "8 should be printed\n"
+.text
+MOVQ $globl_string47, %rdi
+CALL print_string
+.L43:
+MOVQ -8(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %r10, %rbx
+JLE .L50
+MOVQ $0, %r10
+JMP .L51
+.L50:
+MOVQ $1, %r10
+.L51:
+CMPQ $0, %r10
+JE .L48
+.data
+globl_string52:  .string "9 shouldn't be printed\n"
+.text
+MOVQ $globl_string52, %rdi
+CALL print_string
+JMP .L49
+.L48:
+.data
+globl_string53:  .string "9 should be printed\n"
+.text
+MOVQ $globl_string53, %rdi
+CALL print_string
+.L49:
+MOVQ -8(%rbp), %rbx
+MOVQ x, %r10
+CMPQ %rbx, %r10
+JE .L56
+MOVQ $0, %r10
+JMP .L57
+.L56:
+MOVQ $1, %r10
+.L57:
+CMPQ $0, %r10
+JE .L54
+.data
+globl_string58:  .string "0 shouldn't be printed\n"
+.text
+MOVQ $globl_string58, %rdi
+CALL print_string
+JMP .L55
+.L54:
+.data
+globl_string59:  .string "0 should be printed\n"
+.text
+MOVQ $globl_string59, %rdi
+CALL print_string
+.L55:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+1 should be printed
+2 should be printed
+3 should be printed
+4 should be printed
+5 should be printed
+6 should be printed
+7 should be printed
+8 should be printed
+9 should be printed
+0 should be printed
+
+
+return code: 20
+
+
+===[good13.bminor Input]===
+// tests comparisions/if statements with chars
+c:char = 'c';
+main: function integer () =
+{
+	a:char = 'a';
+	cdup:char = 'c';
+	
+	if(c == cdup )
+	{
+		print "should be printed\n";
+	}
+	else
+		print "shouldn't be printed\n";
+	
+	if(c != a )
+	{
+		print "should be printed\n";
+	}
+	else
+	{
+		print "shouldn't be printed\n";
+	}
+
+
+	//switched now (statement should be false)
+	if(c != cdup )
+	{
+		print "shouldn't be printed\n";
+	}
+	else
+	{
+		print "should be printed\n";
+	}
+	
+	if(c == a )
+	{
+		print "shouldn't be printed\n";
+	}
+	else
+	{
+		print "should be printed\n";
+	}
+}
+
+===[good13.bminor Output]===
+.globl c
+.data
+c: .quad 99
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $97, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $99, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ c, %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %rbx, %r10
+JE .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L0
+.data
+globl_string4:  .string "should be printed\n"
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+JMP .L1
+.L0:
+.data
+globl_string5:  .string "shouldn't be printed\n"
+.text
+MOVQ $globl_string5, %rdi
+CALL print_string
+.L1:
+MOVQ c, %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %rbx, %r10
+JNE .L8
+MOVQ $0, %r10
+JMP .L9
+.L8:
+MOVQ $1, %r10
+.L9:
+CMPQ $0, %r10
+JE .L6
+.data
+globl_string10:  .string "should be printed\n"
+.text
+MOVQ $globl_string10, %rdi
+CALL print_string
+JMP .L7
+.L6:
+.data
+globl_string11:  .string "shouldn't be printed\n"
+.text
+MOVQ $globl_string11, %rdi
+CALL print_string
+.L7:
+MOVQ c, %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %rbx, %r10
+JNE .L14
+MOVQ $0, %r10
+JMP .L15
+.L14:
+MOVQ $1, %r10
+.L15:
+CMPQ $0, %r10
+JE .L12
+.data
+globl_string16:  .string "shouldn't be printed\n"
+.text
+MOVQ $globl_string16, %rdi
+CALL print_string
+JMP .L13
+.L12:
+.data
+globl_string17:  .string "should be printed\n"
+.text
+MOVQ $globl_string17, %rdi
+CALL print_string
+.L13:
+MOVQ c, %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %rbx, %r10
+JE .L20
+MOVQ $0, %r10
+JMP .L21
+.L20:
+MOVQ $1, %r10
+.L21:
+CMPQ $0, %r10
+JE .L18
+.data
+globl_string22:  .string "shouldn't be printed\n"
+.text
+MOVQ $globl_string22, %rdi
+CALL print_string
+JMP .L19
+.L18:
+.data
+globl_string23:  .string "should be printed\n"
+.text
+MOVQ $globl_string23, %rdi
+CALL print_string
+.L19:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+should be printed
+should be printed
+should be printed
+should be printed
+
+
+return code: 18
+
+
+===[good14.bminor Input]===
+// tests for loops
+x:integer = 1;
+main: function integer () =
+{
+	for(x = 0; x<10; x++)
+	{
+		print x, "\n";
+	}
+	y:integer = 0;
+	for(; y<10; y++)
+	{
+		print y, "\n";
+	}
+	x=0;
+  return x;
+}
+
+===[good14.bminor Output]===
+.globl x
+.data
+x: .quad 1
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ x, %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, x
+.L0:
+MOVQ x, %rbx
+MOVQ $10, %r10
+CMPQ %r10, %rbx
+JL .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L1
+MOVQ x, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string4:  .string "\n"
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+MOVQ x, %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, x
+JMP .L0
+.L1:
+MOVQ $0, %rbx
+MOVQ %rbx, -8(%rbp)
+.L5:
+MOVQ -8(%rbp), %rbx
+MOVQ $10, %r10
+CMPQ %r10, %rbx
+JL .L7
+MOVQ $0, %r10
+JMP .L8
+.L7:
+MOVQ $1, %r10
+.L8:
+CMPQ $0, %r10
+JE .L6
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string9:  .string "\n"
+.text
+MOVQ $globl_string9, %rdi
+CALL print_string
+MOVQ -8(%rbp), %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, -8(%rbp)
+JMP .L5
+.L6:
+MOVQ x, %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, x
+MOVQ x, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+return code: 0
+
+
+===[good15.bminor Input]===
+// tests infinite for loops
+x:integer = 1;
+main: function integer () =
+{
+	for(;;)
+	{
+		if(x<10)
+		{
+			print x, "\n";
+			x++;
+		}
+		else
+		{
+			return  10;
+		}
+	}	
+}
+
+===[good15.bminor Output]===
+.globl x
+.data
+x: .quad 1
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.L0:
+MOVQ x, %rbx
+MOVQ $10, %r10
+CMPQ %r10, %rbx
+JL .L4
+MOVQ $0, %r10
+JMP .L5
+.L4:
+MOVQ $1, %r10
+.L5:
+CMPQ $0, %r10
+JE .L2
+MOVQ x, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string6:  .string "\n"
+.text
+MOVQ $globl_string6, %rdi
+CALL print_string
+MOVQ x, %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, x
+JMP .L3
+.L2:
+MOVQ $10, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.L3:
+JMP .L0
+.L1:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+return code: 10
+
+
+===[good16.bminor Input]===
+// tests strings/string assignments and printing 
+str:string = "hello";
+main:function integer () =
+{
+	print str;
+	str2:string = " world";
+	print str2;
+}
+
+===[good16.bminor Output]===
+.globl str
+.data
+str: .string "hello"
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ str, %rbx
+MOVQ $str, %rdi
+CALL print_string
+.data
+str2:
+.string " world"
+.text
+MOVQ $str2, -8(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_string
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+hello world
+
+return code: 6
+
+
+===[good18.bminor Input]===
+/*
+This test program prints out a maze generated
+by alternating slash and backslash randomly.
+It relies on the rand, srand, and time functions
+found in the C standard library.
+*/
+
+rand: function integer ();
+srand: function void ( seed: integer );
+time: function integer ( zero: integer );
+
+main: function void () =
+{
+	xsize: integer = 20;
+	ysize: integer = 20;
+
+	srand(time(0));
+
+	i: integer;
+	j: integer;
+	
+	for(j=0;j<ysize;j++) {
+		for(i=0;i<xsize;i++) {
+			if(rand()%2==1) {
+				print '/';
+			} else {
+				print '\\';
+			}
+		}
+		print "\n";
+	}
+}
+
+
+===[good18.bminor Output]===
+.globl rand
+.globl srand
+.globl time
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $20, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $20, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ srand, %rbx
+MOVQ time, %r10
+MOVQ $0, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL time
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL srand
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ -32(%rbp), %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -32(%rbp)
+.L0:
+MOVQ -32(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %r10, %rbx
+JL .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L1
+MOVQ -24(%rbp), %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -24(%rbp)
+.L4:
+MOVQ -24(%rbp), %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %r10, %rbx
+JL .L6
+MOVQ $0, %r10
+JMP .L7
+.L6:
+MOVQ $1, %r10
+.L7:
+CMPQ $0, %r10
+JE .L5
+MOVQ rand, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL rand
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ $2, %r11
+MOVQ %r10, %rax
+CQO
+IDIVQ %r11
+MOVQ %rdx, %r11
+MOVQ $1, %r10
+CMPQ %r11, %r10
+JE .L10
+MOVQ $0, %r10
+JMP .L11
+.L10:
+MOVQ $1, %r10
+.L11:
+CMPQ $0, %r10
+JE .L8
+MOVQ $47, %r10
+MOVQ %r10, %rdi
+CALL print_character
+JMP .L9
+.L8:
+MOVQ $92, %r10
+MOVQ %r10, %rdi
+CALL print_character
+.L9:
+MOVQ -24(%rbp), %r10
+ADDQ $1, %r10
+MOVQ %r10, -24(%rbp)
+JMP .L4
+.L5:
+.data
+globl_string12:  .string "\n"
+.text
+MOVQ $globl_string12, %rdi
+CALL print_string
+MOVQ -32(%rbp), %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, -32(%rbp)
+JMP .L0
+.L1:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+\//\/\/\/\///\\\\/\\
+///\/\\/\//\\\\/\\//
+\/\////\\/\\\/\\/\//
+\\/\\\\\\/\\\\/\//\\
+\\\/\\//\\/\\\/\\/\\
+\\\//\/\//\//\\/\///
+/\//\\///\/\\\//\\\/
+/\\\//\/\/\\/\//\/\\
+/\\/\//\///\//\\\\\/
+/\/\\\\//\/\\/\\\/\/
+\/////\/\\\/\/\/\\\/
+\/\/\\/\/\///\\\/\\/
+\\//\/\\/\////\//\/\
+\\//\\\/\\//\\\\/\\\
+\\///\\/\//\//////\/
+//\\/\\\\/\\/\/\\//\
+\/\/\/\///\\\/\\//\\
+\/\//\/////\\//\\\//
+//\/\\/\/\\//\\\\\/\
+/\\//////\/\//\\//\/
+
+
+return code: 1
+
+
+===[good19.bminor Input]===
+/*
+This test program prints out a maze generated
+by alternating slash and backslash randomly.
+It relies on the rand, srand, and time functions
+found in the C standard library.
+*/
+
+rand: function integer ();
+srand: function void ( seed: integer );
+time: function integer ( zero: integer );
+
+main: function void () =
+{
+	xsize: integer = 20;
+	ysize: integer = 20;
+
+	srand(time(0));
+
+	i: integer;
+	j: integer;
+	
+	for(j=0;j<ysize;j++) {
+		for(i=0;i<xsize;i++) {
+			if(rand()%2==1) {
+				print '/';
+			} else {
+				print '\\';
+			}
+		}
+		print "\n";
+	}
+}
+
+
+===[good19.bminor Output]===
+.globl rand
+.globl srand
+.globl time
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $20, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $20, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ srand, %rbx
+MOVQ time, %r10
+MOVQ $0, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL time
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL srand
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ -32(%rbp), %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -32(%rbp)
+.L0:
+MOVQ -32(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %r10, %rbx
+JL .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L1
+MOVQ -24(%rbp), %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -24(%rbp)
+.L4:
+MOVQ -24(%rbp), %rbx
+MOVQ -8(%rbp), %r10
+CMPQ %r10, %rbx
+JL .L6
+MOVQ $0, %r10
+JMP .L7
+.L6:
+MOVQ $1, %r10
+.L7:
+CMPQ $0, %r10
+JE .L5
+MOVQ rand, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL rand
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ $2, %r11
+MOVQ %r10, %rax
+CQO
+IDIVQ %r11
+MOVQ %rdx, %r11
+MOVQ $1, %r10
+CMPQ %r11, %r10
+JE .L10
+MOVQ $0, %r10
+JMP .L11
+.L10:
+MOVQ $1, %r10
+.L11:
+CMPQ $0, %r10
+JE .L8
+MOVQ $47, %r10
+MOVQ %r10, %rdi
+CALL print_character
+JMP .L9
+.L8:
+MOVQ $92, %r10
+MOVQ %r10, %rdi
+CALL print_character
+.L9:
+MOVQ -24(%rbp), %r10
+ADDQ $1, %r10
+MOVQ %r10, -24(%rbp)
+JMP .L4
+.L5:
+.data
+globl_string12:  .string "\n"
+.text
+MOVQ $globl_string12, %rdi
+CALL print_string
+MOVQ -32(%rbp), %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, -32(%rbp)
+JMP .L0
+.L1:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+\//\/\/\/\///\\\\/\\
+///\/\\/\//\\\\/\\//
+\/\////\\/\\\/\\/\//
+\\/\\\\\\/\\\\/\//\\
+\\\/\\//\\/\\\/\\/\\
+\\\//\/\//\//\\/\///
+/\//\\///\/\\\//\\\/
+/\\\//\/\/\\/\//\/\\
+/\\/\//\///\//\\\\\/
+/\/\\\\//\/\\/\\\/\/
+\/////\/\\\/\/\/\\\/
+\/\/\\/\/\///\\\/\\/
+\\//\/\\/\////\//\/\
+\\//\\\/\\//\\\\/\\\
+\\///\\/\//\//////\/
+//\\/\\\\/\\/\/\\//\
+\/\/\/\///\\\/\\//\\
+\/\//\/////\\//\\\//
+//\/\\/\/\\//\\\\\/\
+/\\//////\/\//\\//\/
+
+
+return code: 1
+
+
+===[good2.bminor Input]===
+// tests addition
+main:function integer ()=
+{
+	return 8 + 2;
+}
+
+===[good2.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $8, %rbx
+MOVQ $2, %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good21.bminor Input]===
+x: integer = 100;
+y: integer = -1;
+main: function integer () = {
+  x: integer = x + y;
+  print "x = ", x, ", y = ", y, "\n";
+  z: char = 'c';
+  print "z = \'", z, "\'\n";
+  print "1+2+3 = ", 1+2+3, "\n";
+  print "1*2*3*4 = ", 1*2*3*4, "\n";
+  print "true && true = ", true && true, ", true && false = ", true && false, "\n";
+  print "true || true = ", true || true, ", true || false = ", true || false, "\n";
+  return y;
+}
+
+===[good21.bminor Output]===
+.globl x
+.data
+x: .quad 100
+.text
+.globl y
+.data
+y: .quad -1
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ x, %rbx
+MOVQ y, %r10
+ADDQ %rbx, %r10
+MOVQ %r10, -8(%rbp)
+.data
+globl_string0:  .string "x = "
+.text
+MOVQ $globl_string0, %rdi
+CALL print_string
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string1:  .string ", y = "
+.text
+MOVQ $globl_string1, %rdi
+CALL print_string
+MOVQ y, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string2:  .string "\n"
+.text
+MOVQ $globl_string2, %rdi
+CALL print_string
+MOVQ $99, %rbx
+MOVQ %rbx, -16(%rbp)
+.data
+globl_string3:  .string "z = \'"
+.text
+MOVQ $globl_string3, %rdi
+CALL print_string
+MOVQ -16(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+.data
+globl_string4:  .string "\'\n"
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+.data
+globl_string5:  .string "1+2+3 = "
+.text
+MOVQ $globl_string5, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $2, %r10
+ADDQ %rbx, %r10
+MOVQ $3, %rbx
+ADDQ %r10, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string6:  .string "\n"
+.text
+MOVQ $globl_string6, %rdi
+CALL print_string
+.data
+globl_string7:  .string "1*2*3*4 = "
+.text
+MOVQ $globl_string7, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $2, %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ $3, %rbx
+MOVQ %r10, %rax
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ $4, %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rdi
+CALL print_integer
+.data
+globl_string8:  .string "\n"
+.text
+MOVQ $globl_string8, %rdi
+CALL print_string
+.data
+globl_string9:  .string "true && true = "
+.text
+MOVQ $globl_string9, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $1, %r10
+CMPQ $0, %rbx
+JE .L10
+CMPQ $0, %r10
+JE .L10
+MOVQ $1, %r10
+JMP .L11
+.L10:
+MOVQ $0, %r10
+.L11:
+MOVQ %r10, %rdi
+CALL print_boolean
+.data
+globl_string12:  .string ", true && false = "
+.text
+MOVQ $globl_string12, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $0, %r10
+CMPQ $0, %rbx
+JE .L13
+CMPQ $0, %r10
+JE .L13
+MOVQ $1, %r10
+JMP .L14
+.L13:
+MOVQ $0, %r10
+.L14:
+MOVQ %r10, %rdi
+CALL print_boolean
+.data
+globl_string15:  .string "\n"
+.text
+MOVQ $globl_string15, %rdi
+CALL print_string
+.data
+globl_string16:  .string "true || true = "
+.text
+MOVQ $globl_string16, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $1, %r10
+CMPQ $1, %rbx
+JE .L17
+CMPQ $1, %r10
+JE .L17
+MOVQ $0, %r10
+JMP .L18
+.L17:
+MOVQ $1, %r10
+.L18:
+MOVQ %r10, %rdi
+CALL print_boolean
+.data
+globl_string19:  .string ", true || false = "
+.text
+MOVQ $globl_string19, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ $0, %r10
+CMPQ $1, %rbx
+JE .L20
+CMPQ $1, %r10
+JE .L20
+MOVQ $0, %r10
+JMP .L21
+.L20:
+MOVQ $1, %r10
+.L21:
+MOVQ %r10, %rdi
+CALL print_boolean
+.data
+globl_string22:  .string "\n"
+.text
+MOVQ $globl_string22, %rdi
+CALL print_string
+MOVQ y, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+x = 99, y = -1
+z = 'c'
+1+2+3 = 6
+1*2*3*4 = 24
+true && true = true, true && false = false
+true || true = true, true || false = true
+
+
+return code: 255
+
+
+===[good22.bminor Input]===
+x: integer = -1;
+y: integer = -2;
+add: function integer (x: integer, y: integer) = {
+  return x + y;
+}
+stringify: function string () = {
+  return "add(x, y) = ";
+}
+always_true: function boolean () = {
+  if (true) return true;
+}
+main: function void () = {
+  print "x = ", x, ", y = ", y, "\n";
+  z: integer = add(x, y);
+  if (always_true()) {
+    print stringify(), z, "\n";
+  }
+}
+
+===[good22.bminor Output]===
+.globl x
+.data
+x: .quad -1
+.text
+.globl y
+.data
+y: .quad -2
+.text
+.globl add
+add:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl stringify
+stringify:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.data
+globl_string0:  .string "add(x, y) = "
+.text
+MOVQ $globl_string0, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl always_true
+always_true:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $1, %rbx
+CMPQ $0, %rbx
+JE .L1
+MOVQ $1, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L2
+.L1:
+.L2:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.data
+globl_string3:  .string "x = "
+.text
+MOVQ $globl_string3, %rdi
+CALL print_string
+MOVQ x, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string4:  .string ", y = "
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+MOVQ y, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string5:  .string "\n"
+.text
+MOVQ $globl_string5, %rdi
+CALL print_string
+MOVQ add, %rbx
+MOVQ x, %r10
+MOVQ %r10, %rdi
+MOVQ y, %r10
+MOVQ %r10, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL add
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, -8(%rbp)
+MOVQ always_true, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL always_true
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+CMPQ $0, %r10
+JE .L6
+MOVQ stringify, %r10
+PUSHQ %r10
+PUSHQ %r11
+CALL stringify
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ %r11, %rdi
+CALL print_string
+MOVQ -8(%rbp), %r11
+MOVQ %r11, %rdi
+CALL print_integer
+.data
+globl_string8:  .string "\n"
+.text
+MOVQ $globl_string8, %rdi
+CALL print_string
+JMP .L7
+.L6:
+.L7:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+x = -1, y = -2
+add(x, y) = -3
+
+
+return code: 1
+
+
+===[good23.bminor Input]===
+arr: array [5] integer = {1, 2, 3, 4, 5};
+main: function void () = {}
+
+===[good23.bminor Output]===
+.globl arr
+.data
+arr:
+.quad 1, 2, 3, 4, 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 230
+
+
+===[good24.bminor Input]===
+x: array [5] integer = {0, 1, 2, 3, 4};
+main: function void () = {
+  i: integer = 0;
+  for(; i < 5; i++) {
+    print x[i], " ";
+  }
+  print "\n";
+  return;
+}
+
+===[good24.bminor Output]===
+.globl x
+.data
+x:
+.quad 0, 1, 2, 3, 4
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $0, %rbx
+MOVQ %rbx, -8(%rbp)
+.L0:
+MOVQ -8(%rbp), %rbx
+MOVQ $5, %r10
+CMPQ %r10, %rbx
+JL .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L1
+MOVQ -8(%rbp), %rbx
+LEAQ x, %r10
+MOVQ $8, %r11
+MOVQ %rbx, %rax
+IMULQ %r11
+ADDQ %rax, %r10
+MOVQ (%r10), %r10
+MOVQ %r10, %rdi
+CALL print_integer
+.data
+globl_string4:  .string " "
+.text
+MOVQ $globl_string4, %rdi
+CALL print_string
+MOVQ -8(%rbp), %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, -8(%rbp)
+JMP .L0
+.L1:
+.data
+globl_string5:  .string "\n"
+.text
+MOVQ $globl_string5, %rdi
+CALL print_string
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+0 1 2 3 4 
+
+
+return code: 1
+
+
+===[good3.bminor Input]===
+// tests multiplication
+main:function integer ()=
+{
+	return 5 * 2;
+}
+
+===[good3.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $5, %rbx
+MOVQ $2, %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good4.bminor Input]===
+// tests division
+main:function integer ()=
+{
+	return 20 / 2;
+}
+
+===[good4.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $20, %rbx
+MOVQ $2, %r10
+MOVQ %rbx, %rax
+CQO
+IDIVQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good5.bminor Input]===
+// Adds a global variable
+x:integer=5;
+main:function integer ()=
+{
+	return x + x;
+}
+
+===[good5.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ x, %rbx
+MOVQ x, %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good6.bminor Input]===
+// Adds a local variable
+x:integer=5;
+main:function integer ()=
+{
+y:integer = 2;
+	return x * y;
+}
+
+===[good6.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $2, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ x, %rbx
+MOVQ -8(%rbp), %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good7.bminor Input]===
+// Uses a complex expression
+x:integer=5;
+main:function integer () =
+{
+	y:integer = 2;
+	return (x + 10) * y - x*4;
+}
+
+===[good7.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $2, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ x, %rbx
+MOVQ $10, %r10
+ADDQ %rbx, %r10
+MOVQ -8(%rbp), %rbx
+MOVQ %r10, %rax
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ x, %r10
+MOVQ $4, %r11
+MOVQ %r10, %rax
+IMULQ %r11
+MOVQ %rax, %r11
+SUBQ %r11, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good8.bminor Input]===
+// Uses a complex expression, with a function call
+x:integer=5;
+fxnCall:function integer() =
+{
+	return x*4;
+}
+main:function integer () =
+{
+	y:integer = 2;
+	return (x + 10) * y - fxnCall();
+}
+
+===[good8.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl fxnCall
+fxnCall:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ x, %rbx
+MOVQ $4, %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $2, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ x, %rbx
+MOVQ $10, %r10
+ADDQ %rbx, %r10
+MOVQ -8(%rbp), %rbx
+MOVQ %r10, %rax
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ fxnCall, %r10
+PUSHQ %r10
+PUSHQ %r11
+CALL fxnCall
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+SUBQ %r11, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+===[good9.bminor Input]===
+// tests if statements 
+x:integer = 5;
+main:function integer () =
+{
+	if(false)
+		x=15;
+	else
+		x=10;
+
+
+	if(true)
+	{
+		return x;
+	}
+	else
+	{
+		return 1;
+	}	
+	
+}
+
+===[good9.bminor Output]===
+.globl x
+.data
+x: .quad 5
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $0, %rbx
+CMPQ $0, %rbx
+JE .L0
+MOVQ x, %rbx
+MOVQ $15, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, x
+JMP .L1
+.L0:
+MOVQ x, %rbx
+MOVQ $10, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, x
+.L1:
+MOVQ $1, %rbx
+CMPQ $0, %rbx
+JE .L2
+MOVQ x, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L3
+.L2:
+MOVQ $1, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.L3:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 10
+
+
+====Bad Tests====
+=====HIDDEN TESTS=====
+====Good Tests====
+===[good1.bminor Input]===
+strlen: function integer(s: string);
+f: function integer(i: integer);
+
+main: function integer () = {
+	if (f(strlen("hi")) > strlen("there")) {print "no\n";}
+	if (f(f(strlen("hi"))) > strlen("there")) print "ok\n";
+
+	return 0;
+}
+
+f: function integer(i: integer) = {
+	return i*2;
+}
+
+===[good1.bminor Output]===
+TEST NOT PASSED - RUNTIME ERROR
+
+
+
+return code: -11
+
+
+===[good10.bminor Input]===
+w: string = "no";
+
+f: function void (s: string) = {
+	{
+		w: string = "ok";
+		print w, "\n";
+		w = "bad!\n";
+	}
+	print s, ' ', w;
+	print " ";
+	s = "changed\n";
+	print s;
+}
+
+main:function integer ()= {
+	s: string = "good";
+	f(s);
+	print s;
+
+	return 0;
+}
+
+===[good10.bminor Output]===
+TEST NOT PASSED - COMPILE ERROR
+
+
+../hidden-tests/codegen/good10.bminor.s: Assembler messages:
+../hidden-tests/codegen/good10.bminor.s:16: Error: symbol `w' is already defined
+
+return code: 1
+
+
+===[good11.bminor Input]===
+main: function integer () = {
+	x: integer = 20;
+	y: integer = x;
+	{
+		x: integer = 10;
+		y = y + x;
+	}
+
+	{
+		{
+			y = y + x;
+			x: integer = 2;
+			y = y + x;
+		}
+		y = y + x;
+		x: integer = 3;
+		y = y + x;
+	}
+	return y + x;
+}
+
+===[good11.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $20, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ $10, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+MOVQ -24(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+MOVQ -8(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ $2, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+MOVQ -24(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+MOVQ -8(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ $3, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+MOVQ -24(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -8(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 95
+
+
+===[good13.bminor Input]===
+foo_epilogue: function integer () = {
+	return 2;
+}
+
+foo: function integer ();
+
+main: function integer () = {
+	return foo() * 11;
+}
+
+main_epilogue: function integer () = {
+	return foo_epilogue() + 3;
+}
+
+foo: function integer () = {
+	return main_epilogue() - 1;
+}
+
+===[good13.bminor Output]===
+.globl foo_epilogue
+foo_epilogue:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $2, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl foo
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ foo, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL foo
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ $11, %r11
+MOVQ %r10, %rax
+IMULQ %r11
+MOVQ %rax, %r11
+MOVQ %r11, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main_epilogue
+main_epilogue:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ foo_epilogue, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL foo_epilogue
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ $3, %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl foo
+foo:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ main_epilogue, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL main_epilogue
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ $1, %r11
+SUBQ %r11, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 44
+
+
+===[good12.bminor Input]===
+main: function integer () = {
+	return 4 + 9 / (-2 - (-5)) + (((2 + 1) * 4) - 1) % 3 * 7 - 8;
+}
+
+===[good12.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $4, %rbx
+MOVQ $9, %r10
+MOVQ $2, %r11
+MOVQ %r11, %rax
+MOVQ $-1, %r11
+IMULQ %r11
+MOVQ %rax, %r11
+MOVQ $5, %r12
+MOVQ %r12, %rax
+MOVQ $-1, %r12
+IMULQ %r12
+MOVQ %rax, %r12
+SUBQ %r12, %r11
+MOVQ %r10, %rax
+CQO
+IDIVQ %r11
+MOVQ %rax, %r11
+ADDQ %rbx, %r11
+MOVQ $2, %rbx
+MOVQ $1, %r10
+ADDQ %rbx, %r10
+MOVQ $4, %rbx
+MOVQ %r10, %rax
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ $1, %r10
+SUBQ %r10, %rbx
+MOVQ $3, %r10
+MOVQ %rbx, %rax
+CQO
+IDIVQ %r10
+MOVQ %rdx, %r10
+MOVQ $7, %rbx
+MOVQ %r10, %rax
+IMULQ %rbx
+MOVQ %rax, %rbx
+ADDQ %r11, %rbx
+MOVQ $8, %r10
+SUBQ %r10, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 13
+
+
+===[good15.bminor Input]===
+// https://piazza.com/class/jziupd2lzpm7cy?cid=179
+
+strdup: function string (s: string);
+
+main: function integer () = {
+	a: string = "sssss";
+	b: string = strdup(a);
+	if (a==b) return 22; else return 11;
+}
+
+===[good15.bminor Output]===
+.globl strdup
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.data
+a:
+.string "sssss"
+.text
+MOVQ $a, -8(%rbp)
+.data
+b:
+.string "(null)"
+.text
+MOVQ $b, -16(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %rbx, %r10
+JE .L2
+MOVQ $0, %r10
+JMP .L3
+.L2:
+MOVQ $1, %r10
+.L3:
+CMPQ $0, %r10
+JE .L0
+MOVQ $22, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L1
+.L0:
+MOVQ $11, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.L1:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 11
+
+
+===[good17.bminor Input]===
+a1: integer;
+a2: integer = 111;
+a3: boolean = false;
+
+A: function integer() = {
+	if (a3) return a1 * a2;
+	a2: integer = 3;
+	if (!!!a3) return a1 + a2;
+	return 0;
+}
+
+main: function integer() = { return A(); }
+
+===[good17.bminor Output]===
+TEST NOT PASSED - COMPILE ERROR
+
+
+/usr/lib/gcc/x86_64-redhat-linux/8/../../../../lib64/crt1.o: In function `_start':
+(.text+0x24): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+
+return code: 1
+
+
+===[good18.bminor Input]===
+b1: integer = 3;
+b2: integer = 6;
+b3: integer = 9;
+
+B: function integer(b3: integer, b4: integer) = {
+	print b1 * b2 + b3 % b4;
+	print '\n';
+	b3 = 37;
+	return b3;
+}
+
+main: function integer () = {
+	print B(5, 3);
+	return b3;
+}
+
+===[good18.bminor Output]===
+.globl b1
+.data
+b1: .quad 3
+.text
+.globl b2
+.data
+b2: .quad 6
+.text
+.globl b3
+.data
+b3: .quad 9
+.text
+.globl B
+B:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ b1, %rbx
+MOVQ b2, %r10
+MOVQ %rbx, %rax
+IMULQ %r10
+MOVQ %rax, %r10
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r11
+MOVQ %rbx, %rax
+CQO
+IDIVQ %r11
+MOVQ %rdx, %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rdi
+CALL print_integer
+MOVQ $92, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ -8(%rbp), %rbx
+MOVQ $37, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ B, %rbx
+MOVQ $5, %r10
+MOVQ %r10, %rdi
+MOVQ $3, %r10
+MOVQ %r10, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL B
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rdi
+CALL print_integer
+MOVQ b3, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+20\37
+
+return code: 9
+
+
+===[good4.bminor Input]===
+collatz: function integer(n: integer, acc: integer) = {
+	print n, " ", acc, "\n";
+	if (n == 1) return acc;
+
+	if (n % 2 == 0) return collatz(n/2, acc + 1);
+	else return collatz(3*n + 1, acc + 1);
+}
+
+main:function integer ()=
+{
+	return collatz(27, 0);
+}
+
+===[good4.bminor Output]===
+.globl collatz
+collatz:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string0:  .string " "
+.text
+MOVQ $globl_string0, %rdi
+CALL print_string
+MOVQ -16(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string1:  .string "\n"
+.text
+MOVQ $globl_string1, %rdi
+CALL print_string
+MOVQ -8(%rbp), %rbx
+MOVQ $1, %r10
+CMPQ %rbx, %r10
+JE .L4
+MOVQ $0, %r10
+JMP .L5
+.L4:
+MOVQ $1, %r10
+.L5:
+CMPQ $0, %r10
+JE .L2
+MOVQ -16(%rbp), %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L3
+.L2:
+.L3:
+MOVQ -8(%rbp), %rbx
+MOVQ $2, %r10
+MOVQ %rbx, %rax
+CQO
+IDIVQ %r10
+MOVQ %rdx, %r10
+MOVQ $0, %rbx
+CMPQ %r10, %rbx
+JE .L8
+MOVQ $0, %rbx
+JMP .L9
+.L8:
+MOVQ $1, %rbx
+.L9:
+CMPQ $0, %rbx
+JE .L6
+MOVQ collatz, %rbx
+MOVQ -8(%rbp), %r10
+MOVQ $2, %r11
+MOVQ %r10, %rax
+CQO
+IDIVQ %r11
+MOVQ %rax, %r11
+MOVQ %r11, %rdi
+MOVQ -16(%rbp), %r10
+MOVQ $1, %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL collatz
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L7
+.L6:
+MOVQ collatz, %r10
+MOVQ $3, %r11
+MOVQ -8(%rbp), %r12
+MOVQ %r11, %rax
+IMULQ %r12
+MOVQ %rax, %r12
+MOVQ $1, %r11
+ADDQ %r12, %r11
+MOVQ %r11, %rdi
+MOVQ -16(%rbp), %r11
+MOVQ $1, %r12
+ADDQ %r11, %r12
+MOVQ %r12, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL collatz
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ %r11, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.L7:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ collatz, %rbx
+MOVQ $27, %r10
+MOVQ %r10, %rdi
+MOVQ $0, %r10
+MOVQ %r10, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL collatz
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+27 0
+82 1
+41 2
+124 3
+62 4
+31 5
+94 6
+47 7
+142 8
+71 9
+214 10
+107 11
+322 12
+161 13
+484 14
+242 15
+121 16
+364 17
+182 18
+91 19
+274 20
+137 21
+412 22
+206 23
+103 24
+310 25
+155 26
+466 27
+233 28
+700 29
+350 30
+175 31
+526 32
+263 33
+790 34
+395 35
+1186 36
+593 37
+1780 38
+890 39
+445 40
+1336 41
+668 42
+334 43
+167 44
+502 45
+251 46
+754 47
+377 48
+1132 49
+566 50
+283 51
+850 52
+425 53
+1276 54
+638 55
+319 56
+958 57
+479 58
+1438 59
+719 60
+2158 61
+1079 62
+3238 63
+1619 64
+4858 65
+2429 66
+7288 67
+3644 68
+1822 69
+911 70
+2734 71
+1367 72
+4102 73
+2051 74
+6154 75
+3077 76
+9232 77
+4616 78
+2308 79
+1154 80
+577 81
+1732 82
+866 83
+433 84
+1300 85
+650 86
+325 87
+976 88
+488 89
+244 90
+122 91
+61 92
+184 93
+92 94
+46 95
+23 96
+70 97
+35 98
+106 99
+53 100
+160 101
+80 102
+40 103
+20 104
+10 105
+5 106
+16 107
+8 108
+4 109
+2 110
+1 111
+
+
+return code: 111
+
+
+===[good20.bminor Input]===
+D: function integer() = {
+	d1: integer = 5;
+	d2: integer = d1 + 1; //6
+	{
+		d3: integer = 9;
+		d2: integer = d3 + d1 - 3; //11
+		d4: integer = -1;
+		d2 = d2 + d3; //20
+		print d2 - d4, "\n";
+	}
+	d4: integer = 16;
+	print d2 - d4, '\n';
+	{
+		d4: integer = -2;
+		d3: integer = 1000;
+		print d3 + 10;
+		print "\n";
+		print d4;
+		print '\n';
+	}
+	print d4;
+	return 3;
+}
+
+main: function integer () = {
+	return D();
+}
+
+===[good20.bminor Output]===
+.globl D
+D:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $5, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ $1, %r10
+ADDQ %rbx, %r10
+MOVQ %r10, -16(%rbp)
+MOVQ $9, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -24(%rbp), %rbx
+MOVQ -8(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ $3, %rbx
+SUBQ %rbx, %r10
+MOVQ %r10, -32(%rbp)
+MOVQ $1, %rbx
+MOVQ %rbx, %rax
+MOVQ $-1, %rbx
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ %rbx, -40(%rbp)
+MOVQ -32(%rbp), %rbx
+MOVQ -32(%rbp), %r10
+MOVQ -24(%rbp), %r11
+ADDQ %r10, %r11
+MOVQ %r11, %rbx
+MOVQ %rbx, -32(%rbp)
+MOVQ -32(%rbp), %rbx
+MOVQ -40(%rbp), %r10
+SUBQ %r10, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string0:  .string "\n"
+.text
+MOVQ $globl_string0, %rdi
+CALL print_string
+MOVQ $16, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -16(%rbp), %rbx
+MOVQ -24(%rbp), %r10
+SUBQ %r10, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+MOVQ $92, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ $2, %rbx
+MOVQ %rbx, %rax
+MOVQ $-1, %rbx
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ %rbx, -32(%rbp)
+MOVQ $1000, %rbx
+MOVQ %rbx, -40(%rbp)
+MOVQ -40(%rbp), %rbx
+MOVQ $10, %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rdi
+CALL print_integer
+.data
+globl_string1:  .string "\n"
+.text
+MOVQ $globl_string1, %rdi
+CALL print_string
+MOVQ -32(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+MOVQ $92, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ -24(%rbp), %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+MOVQ $3, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ D, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL D
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+21
+-10\1010
+-2\16
+
+return code: 3
+
+
+===[good3.bminor Input]===
+T: array [8] integer = {2, 1, 1, 2, 1, 2, 0, 3};
+
+main:function integer ()=
+{
+	i: integer = 0;
+        for (;;) {
+		if (T[i] == 0) return T[5] + 10;
+		else if (T[i] == 1) i++;
+		else if (T[i] == 2) T[i++]--;
+		else return 1;
+	}
+
+	return 0;
+}
+
+===[good3.bminor Output]===
+TEST NOT PASSED - COMPILE ERROR
+
+
+../hidden-tests/codegen/good3.bminor.s: Assembler messages:
+../hidden-tests/codegen/good3.bminor.s:103: Error: operand type mismatch for `sub'
+
+return code: 1
+
+
+===[good5.bminor Input]===
+A: function boolean(x: integer, y: integer);
+B: function integer(x: char);
+C: function char(a: string);
+
+main: function integer() = {
+	if (A(B('d') - 1, 10)) {
+		x: integer = 3;
+		return 2 * B('!') + x;
+	}
+	return B(C("hello")) % 3;
+}
+
+A: function boolean(x: integer, y: integer) = {
+	return x == y;
+}
+
+B: function integer(c: char) = {
+	if (c == '!')
+		return 10;
+	else {return 11;}
+}
+
+C: function char(a: string) = {
+	return '!';
+}
+
+===[good5.bminor Output]===
+.globl A
+.globl B
+.globl C
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ A, %rbx
+MOVQ B, %r10
+MOVQ $100, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL B
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ $1, %r12
+SUBQ %r12, %r11
+MOVQ %r11, %rdi
+MOVQ $10, %r11
+MOVQ %r11, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL A
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+CMPQ $0, %r11
+JE .L0
+MOVQ $3, %r11
+MOVQ %r11, -8(%rbp)
+MOVQ $2, %rbx
+MOVQ B, %r10
+MOVQ $33, %r11
+MOVQ %r11, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL B
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r11
+MOVQ %rbx, %rax
+IMULQ %r11
+MOVQ %rax, %r11
+MOVQ -8(%rbp), %rbx
+ADDQ %r11, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L1
+.L0:
+.L1:
+MOVQ B, %rbx
+MOVQ C, %r11
+.data
+globl_string2:  .string "hello"
+.text
+MOVQ %rbx, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL C
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %rbx
+MOVQ %rbx, %rdi
+PUSHQ %r10
+PUSHQ %r11
+CALL B
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %rbx
+MOVQ $3, %r12
+MOVQ %rbx, %rax
+CQO
+IDIVQ %r12
+MOVQ %rdx, %r12
+MOVQ %r12, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl A
+A:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+CMPQ %rbx, %r10
+JE .L3
+MOVQ $0, %r10
+JMP .L4
+.L3:
+MOVQ $1, %r10
+.L4:
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl B
+B:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ -8(%rbp), %rbx
+MOVQ $33, %r10
+CMPQ %rbx, %r10
+JE .L7
+MOVQ $0, %r10
+JMP .L8
+.L7:
+MOVQ $1, %r10
+.L8:
+CMPQ $0, %r10
+JE .L5
+MOVQ $10, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+JMP .L6
+.L5:
+MOVQ $11, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.L6:
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl C
+C:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $33, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 23
+
+
+===[good6.bminor Input]===
+f: function boolean(b: boolean) = {
+	return !b;
+}
+
+x: integer = -4;
+
+main:function integer ()=
+{
+	y: integer = 10;
+	if (f(f(f(f(f(x <= y)))))) return 1;
+	else if (x < y - x*y) {
+		return 4;
+	} else return 2;
+}
+
+===[good6.bminor Output]===
+TEST NOT PASSED
+
+Error: failed retrieving the name of register -1: Invalid register number
+
+
+return code: 1
+
+
+===[good7.bminor Input]===
+f: function void (i: integer) = {
+	N: integer;
+	for (N = 0; i > 0; i--) {
+		print N;
+		N = N + 1;
+	}
+}
+
+main:function integer () = {
+	N: integer = 6;
+	for (;;N--) {
+		f(N);
+		print '\n';
+		if (N == 0) return 0;
+	}
+
+	return 1;
+}
+
+
+===[good7.bminor Output]===
+TEST NOT PASSED - COMPILE ERROR
+
+
+../hidden-tests/codegen/good7.bminor.s: Assembler messages:
+../hidden-tests/codegen/good7.bminor.s:37: Error: operand type mismatch for `sub'
+
+return code: 1
+
+
+===[good9.bminor Input]===
+a: array[4] integer;
+main: function integer() = {
+	a[2] = 60;
+	return a[2] + a[2] / 20 * 3 - a[1];
+}
+
+===[good9.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: -11
+
+
+===[good2.bminor Input]===
+
+
+X: array [4] integer = {11, 30, 22, 0};
+
+main: function integer () = {
+	i: integer;
+	for (i = 0; X[i] != 0; i++)
+		print X[i], ' ', X[i] % 3, '\n';
+
+	return 0;
+}
+
+===[good2.bminor Output]===
+.globl X
+.data
+X:
+.quad 11, 30, 22, 0
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ -8(%rbp), %rbx
+MOVQ $0, %r10
+MOVQ %r10, %rbx
+MOVQ %rbx, -8(%rbp)
+.L0:
+MOVQ -8(%rbp), %rbx
+LEAQ X, %r10
+MOVQ $8, %r11
+MOVQ %rbx, %rax
+IMULQ %r11
+ADDQ %rax, %r10
+MOVQ (%r10), %r10
+MOVQ $0, %rbx
+CMPQ %r10, %rbx
+JNE .L2
+MOVQ $0, %rbx
+JMP .L3
+.L2:
+MOVQ $1, %rbx
+.L3:
+CMPQ $0, %rbx
+JE .L1
+MOVQ -8(%rbp), %rbx
+LEAQ X, %r10
+MOVQ $8, %r11
+MOVQ %rbx, %rax
+IMULQ %r11
+ADDQ %rax, %r10
+MOVQ (%r10), %r10
+MOVQ %r10, %rdi
+CALL print_integer
+MOVQ $32, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ -8(%rbp), %rbx
+LEAQ X, %r10
+MOVQ $8, %r11
+MOVQ %rbx, %rax
+IMULQ %r11
+ADDQ %rax, %r10
+MOVQ (%r10), %r10
+MOVQ $3, %rbx
+MOVQ %r10, %rax
+CQO
+IDIVQ %rbx
+MOVQ %rdx, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+MOVQ $92, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ -8(%rbp), %rbx
+ADDQ $1, %rbx
+MOVQ %rbx, -8(%rbp)
+JMP .L0
+.L1:
+MOVQ $0, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+11 2\30 0\22 1\
+
+return code: 0
+
+
+===[good8.bminor Input]===
+abs: function integer(n: integer) = {
+	return n;
+}
+
+digits: array [6] integer = {
+	14,
+	8,
+	6168,
+	42,
+	0,
+	74546
+};
+
+main:function integer () = {
+	digits[4] = -468;
+	i: integer = 0;
+	for (; abs(digits[i]) == digits[i];) {
+		print digits[i];
+		i = i + 1;
+		print ' ';
+	}
+	print '\n';
+
+	return 0;
+}
+
+===[good8.bminor Output]===
+TEST NOT PASSED
+
+
+
+return code: -11
+
+
+===[good19.bminor Input]===
+c1: integer = -1;
+c3: integer = 100;
+
+d1: integer = 1;
+d2: integer = 2;
+
+C: function integer(c1: integer, c2: integer) = {
+	c3: integer = 11;
+	c4: integer = 12;
+	c5: integer = 13;
+	return c1 + c2 + c3 + c4;
+}
+
+D: function integer(d1: integer, d2: integer) = {
+	d3: integer = -3;
+	d4: integer = 4;
+	d5: integer = 5;
+	return d1 + d2 + d3 - d4;
+}
+
+main: function integer() = {
+	f: integer = D(6, 7);
+	return C(1, 2);
+}
+
+===[good19.bminor Output]===
+.globl c1
+.data
+c1: .quad -1
+.text
+.globl c3
+.data
+c3: .quad 100
+.text
+.globl d1
+.data
+d1: .quad 1
+.text
+.globl d2
+.data
+d2: .quad 2
+.text
+.globl C
+C:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $11, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $12, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ $13, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ -8(%rbp), %rbx
+ADDQ %r10, %rbx
+MOVQ -16(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl D
+D:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rdi
+PUSHQ %rsi
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ $3, %rbx
+MOVQ %rbx, %rax
+MOVQ $-1, %rbx
+IMULQ %rbx
+MOVQ %rax, %rbx
+MOVQ %rbx, -8(%rbp)
+MOVQ $4, %rbx
+MOVQ %rbx, -16(%rbp)
+MOVQ $5, %rbx
+MOVQ %rbx, -24(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ -16(%rbp), %r10
+ADDQ %rbx, %r10
+MOVQ -8(%rbp), %rbx
+ADDQ %r10, %rbx
+MOVQ -16(%rbp), %r10
+SUBQ %r10, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ D, %rbx
+MOVQ $6, %r10
+MOVQ %r10, %rdi
+MOVQ $7, %r10
+MOVQ %r10, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL D
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, -8(%rbp)
+MOVQ C, %rbx
+MOVQ $1, %r10
+MOVQ %r10, %rdi
+MOVQ $2, %r10
+MOVQ %r10, %rsi
+PUSHQ %r10
+PUSHQ %r11
+CALL C
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+
+
+return code: 46
+
+
+===[good14.bminor Input]===
+/*
+Return pointer to (constant) global
+string which is valid to display.
+*/
+
+s: string = "ok\n";
+
+f: function string() = {
+	t: string = s;
+	return t;
+}
+
+main: function integer () = {
+	print f();
+	return 0;
+}
+
+===[good14.bminor Output]===
+.globl s
+.data
+s: .string "ok\n"
+.text
+.globl f
+f:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.data
+t:
+.string "(null)"
+.text
+MOVQ $t, -8(%rbp)
+MOVQ -8(%rbp), %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+MOVQ f, %rbx
+PUSHQ %r10
+PUSHQ %r11
+CALL f
+POPQ %r11
+POPQ %r10
+MOVQ %rax, %r10
+MOVQ %r10, %rdi
+CALL print_string
+MOVQ $0, %r10
+MOVQ %r10, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+(null)
+
+return code: 0
+
+
+===[good16.bminor Input]===
+// https://piazza.com/class/jziupd2lzpm7cy?cid=176
+
+main: function integer() = {
+	print "Testing printing literals", '\n', 123, "abc", true, false, 5;
+	return 0;
+}
+
+
+===[good16.bminor Output]===
+.globl main
+main:
+PUSHQ %rbp
+MOVQ %rsp, %rbp
+PUSHQ %rbx
+PUSHQ %r12
+PUSHQ %r13
+PUSHQ %r14
+PUSHQ %r15
+.data
+globl_string0:  .string "Testing printing literals"
+.text
+MOVQ $globl_string0, %rdi
+CALL print_string
+MOVQ $92, %rbx
+MOVQ %rbx, %rdi
+CALL print_character
+MOVQ $123, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+.data
+globl_string1:  .string "abc"
+.text
+MOVQ $globl_string1, %rdi
+CALL print_string
+MOVQ $1, %rbx
+MOVQ %rbx, %rdi
+CALL print_boolean
+MOVQ $0, %rbx
+MOVQ %rbx, %rdi
+CALL print_boolean
+MOVQ $5, %rbx
+MOVQ %rbx, %rdi
+CALL print_integer
+MOVQ $0, %rbx
+MOVQ %rbx, %rax
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+POPQ %r15
+POPQ %r14
+POPQ %r13
+POPQ %r12
+POPQ %rbx
+MOVQ %rbp, %rsp
+POPQ %rbp
+RET
+.text
+
+Testing printing literals\123abctruefalse5
+
+return code: 0
+
+
+====Bad Tests====
+===== SUMMARIZED CODEGEN RESULTS =====
+{
+  "student_tests": {
+    "Good": {
+      "correct": 22,
+      "incorrect": 1
+    },
+    "Bad": {
+      "correct": 0,
+      "incorrect": 0
+    }
+  },
+  "hidden_tests": {
+    "Good": {
+      "correct": 12,
+      "incorrect": 8
+    },
+    "Bad": {
+      "correct": 0,
+      "incorrect": 0
+    }
+  }
+}
+
+Codegen Project Grade
+-------------------
+
+General Structure: 24/25
+---------------------------------
+Some parsing issue not recognizing a main function
+
+Codegen - Functionality 10/15 
+--------------------------------------------
+some crashes in compiled code, may have run out of registers
+in one case. misc assembler messages
+
+Codegen - Assembly Structure 10/10 
+--------------------------------------------
+Assembly structure looks good
+
+Student Tests: 20/20
+---------------------------
+Fails one of your tests with a float,
+since I reverted back to the original release, so
+no points lost
+
+Hidden Tests: 12/20
+---------------------------
+Fails 8 hidden tests
+
+Code Style: 10/10
+------------------------
+Looks good. Nice work
+
+Extra Credit: 0/10
+------------------------
+
+Total: 86/100
+------------------------------------------
