@@ -1,4 +1,4 @@
-Starter Code for Dazhi Feng's BMinor Project
+Starter Code for the CS40243 Project
 -------------------------------
 
 This directory contains the starter code for the BMinor compiler.
